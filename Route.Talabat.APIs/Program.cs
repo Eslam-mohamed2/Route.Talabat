@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.Infrastructure.Persistence;
 using Route.Talabat.Infrastructure.Persistence.Data;
@@ -7,8 +8,14 @@ namespace Route.Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        //[FromServices]
+        //public static StoreContext StoreContext { get; set; } = null!;
+            
+        public static async Task Main(string[] args)
         {
+
+            //StoreContext dbContext = new StoreContext();
+
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -31,6 +38,32 @@ namespace Route.Talabat.APIs
             #endregion
 
             var app = webApplicationBuilder.Build();
+
+            #region Update Datebase || (Applky Any Pending Migrations)
+
+            using var Scoope = app.Services.CreateAsyncScope();
+            var Services = Scoope.ServiceProvider;
+            var dbContext = Services.GetRequiredService<StoreContext>();
+            // ASking the Runtime Env for an Object from "StoreContext" Service Explicitly.
+            
+            
+            var loggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            
+            //var logger = Services.GetRequiredService<Logger<Program>>();
+             try
+            {
+                var PendingMigrations = dbContext.Database.GetPendingMigrations();
+                if (PendingMigrations.Any())
+            
+                    await dbContext.Database.MigrateAsync(); // -> UpdateDatabase
+            }
+            catch (Exception ex)
+            {
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex, "an Error Has Been Occurd during applying the Migrations.");
+            }
+            
+            #endregion
 
             #region Configrue Kestrel Middlewares
             // Configure the HTTP request pipeline.
