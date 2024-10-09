@@ -1,6 +1,8 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Route.Talabat.APIs.Extensions;
+using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence;
 using Route.Talabat.Infrastructure.Persistence.Data;
 
@@ -24,6 +26,7 @@ namespace Route.Talabat.APIs
             webApplicationBuilder.Services.AddControllers(); // Register the Required Services
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
+
             webApplicationBuilder.Services.AddSwaggerGen();
 
             //webApplicationBuilder.Services.AddDbContext<StoreContext>((Option) =>
@@ -33,36 +36,15 @@ namespace Route.Talabat.APIs
 
             //DependencyInJection.AddPersistence(webApplicationBuilder.Services, webApplicationBuilder.Configuration);
 
-            webApplicationBuilder.Services.AddPersistence( webApplicationBuilder.Configuration);
+            webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
 
             #endregion
 
             var app = webApplicationBuilder.Build();
 
-            #region Update Datebase || (Applky Any Pending Migrations) and Data Seeding
+            #region Databases Initialization
 
-            using var Scoope = app.Services.CreateAsyncScope();
-            var Services = Scoope.ServiceProvider;
-            var dbContext = Services.GetRequiredService<StoreContext>();
-            // ASking the Runtime Env for an Object from "StoreContext" Service Explicitly.
-            
-            
-            var loggerFactory = Services.GetRequiredService<ILoggerFactory>();
-            
-            //var logger = Services.GetRequiredService<Logger<Program>>();
-             try
-            {
-                var PendingMigrations = dbContext.Database.GetPendingMigrations();
-                if (PendingMigrations.Any())
-                    await dbContext.Database.MigrateAsync(); // -> UpdateDatabase
-
-                await StoreContextSeed.SeedAsync(dbContext);
-            }
-            catch (Exception ex)
-            {
-                var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "an Error Has Been Occurd during applying the Migrations or the data seeding.");
-            }
+            await app.InitializerStoreContextAsync();
             
             #endregion
 

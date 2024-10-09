@@ -1,12 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure.Persistence
 {
@@ -18,6 +14,11 @@ namespace Route.Talabat.Infrastructure.Persistence
             {
                 OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("StoreContext"));
             });
+
+            services.AddScoped<IStoreContextInitializer , StoreContextInitializer>();
+
+            //services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
+
             return services;    
         }
     }
