@@ -39,7 +39,7 @@ namespace Route.Talabat.APIs
 
             var app = webApplicationBuilder.Build();
 
-            #region Update Datebase || (Applky Any Pending Migrations)
+            #region Update Datebase || (Applky Any Pending Migrations) and Data Seeding
 
             using var Scoope = app.Services.CreateAsyncScope();
             var Services = Scoope.ServiceProvider;
@@ -54,13 +54,14 @@ namespace Route.Talabat.APIs
             {
                 var PendingMigrations = dbContext.Database.GetPendingMigrations();
                 if (PendingMigrations.Any())
-            
                     await dbContext.Database.MigrateAsync(); // -> UpdateDatabase
+
+                await StoreContextSeed.SeedAsync(dbContext);
             }
             catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "an Error Has Been Occurd during applying the Migrations.");
+                logger.LogError(ex, "an Error Has Been Occurd during applying the Migrations or the data seeding.");
             }
             
             #endregion
