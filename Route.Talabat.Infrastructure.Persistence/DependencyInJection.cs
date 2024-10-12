@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence.Data;
 using Route.Talabat.Infrastructure.Persistence.Data.Interceptors;
+using Route.Talabat.Infrastructure.Persistence.UnitOfWork;
 
 namespace Route.Talabat.Infrastructure.Persistence
 {
@@ -20,7 +21,7 @@ namespace Route.Talabat.Infrastructure.Persistence
             services.AddScoped<IStoreContextInitializer , StoreContextInitializer>();
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
             //services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
-
+            services.AddScoped(typeof(IUnitOfWork) , typeof(UnitOFWork));
             return services;    
         }
     }

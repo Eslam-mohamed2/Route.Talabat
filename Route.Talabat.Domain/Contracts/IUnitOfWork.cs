@@ -10,7 +10,7 @@ namespace Route.Talabat.Core.Domain.Contracts
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        IGenericRepository<TEntity, TKey> GetRepositor<TEntity , TKey>()
+        IGenericRepository<TEntity, TKey> GetRepository<TEntity , TKey>()
             where TEntity : BaseAuditableEntity<TKey> where TKey : IEquatable<TKey>;
         Task<int> CompleteAsync();
     }

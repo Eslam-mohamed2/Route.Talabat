@@ -26,7 +26,7 @@ namespace Route.Talabat.Infrastructure.Persistence.UnitOfWork
 
         public async ValueTask DisposeAsync() => await _dbContext.DisposeAsync();
 
-        public IGenericRepository<TEntity, TKey> GetRepositor<TEntity, TKey>()
+        public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
             where TEntity : BaseAuditableEntity<TKey>
             where TKey : IEquatable<TKey>
         {
