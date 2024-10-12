@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Route.Talabat.APIs.Extensions;
+using Route.Talabat.APIs.Services;
+using Route.Talabat.Core.Application.Abstraction;
 using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence;
 using Route.Talabat.Infrastructure.Persistence.Data;
@@ -37,6 +39,9 @@ namespace Route.Talabat.APIs
             //DependencyInJection.AddPersistence(webApplicationBuilder.Services, webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddHttpContextAccessor();
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService) , typeof(LoggedInUserService));
 
             #endregion
 

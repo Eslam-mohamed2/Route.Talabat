@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Route.Talabat.Core.Application.Astraction\Route.Talabat.Core.Application.Abstraction.csproj" />
     <ProjectReference Include="..\Route.Talabat.Domain\Route.Talabat.Core.Domain.csproj" />
   </ItemGroup>
 

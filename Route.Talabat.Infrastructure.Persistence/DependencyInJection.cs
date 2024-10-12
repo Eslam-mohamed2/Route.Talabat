@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence.Data;
+using Route.Talabat.Infrastructure.Persistence.Data.Interceptors;
 
 namespace Route.Talabat.Infrastructure.Persistence
 {
@@ -16,7 +18,7 @@ namespace Route.Talabat.Infrastructure.Persistence
             });
 
             services.AddScoped<IStoreContextInitializer , StoreContextInitializer>();
-
+            services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
             //services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
 
             return services;    
