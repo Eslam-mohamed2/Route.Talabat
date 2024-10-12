@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Domain.Contracts
 {
-    public interface IGenericRepository<TEntity,TKey> where TEntity : BaseEntity<TKey>
+    public interface IGenericRepository<TEntity,TKey>
+        where TEntity : BaseAuditableEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync(bool WithTracking = false);

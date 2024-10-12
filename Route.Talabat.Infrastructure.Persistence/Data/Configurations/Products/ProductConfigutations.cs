@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure.Persistence.Data.Configurations.Products
 {
-    internal class ProductConfigutations : BaseEntityConfigurations<Product ,int>
+    internal class ProductConfigutations : BaseAuditableEntityConfigurations<Product ,int>
     {
         public override void Configure(EntityTypeBuilder<Product> builder)
         {
