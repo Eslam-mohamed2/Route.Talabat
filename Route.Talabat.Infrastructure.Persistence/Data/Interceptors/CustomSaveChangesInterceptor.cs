@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Route.Talabat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Route.Talabat.Core.Application.Abstraction;
+using Route.Talaat.Core.Application.Abstraction;
 
-namespace Route.Talabat.Infrastructure.Persistence.Data.Interceptors
+namespace Route.Talaat.Infrastructure.Persistence.Data.Interceptors
 {
     internal class CustomSaveChangesInterceptor : SaveChangesInterceptor
     {

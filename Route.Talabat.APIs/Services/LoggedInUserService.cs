@@ -1,7 +1,7 @@
-﻿using Route.Talabat.Core.Application.Abstraction;
+﻿using Route.Talaat.Core.Application.Abstraction;
 using System.Security.Claims;
 
-namespace Route.Talabat.APIs.Services
+namespace Route.Talaat.APIs.Services
 {
     public class LoggedInUserService : ILoggedInUserService
     {

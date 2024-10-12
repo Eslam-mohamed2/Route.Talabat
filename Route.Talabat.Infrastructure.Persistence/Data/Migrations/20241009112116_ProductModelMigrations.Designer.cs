@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Route.Talabat.Infrastructure.Persistence.Data;
+using Route.Talaat.Infrastructure.Persistence.Data;
 
 #nullable disable
 
-namespace Route.Talabat.Infrastructure.Persistence.Data.Migrations
+namespace Route.Talaat.Infrastructure.Persistence.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
     [Migration("20241009112116_ProductModelMigrations")]

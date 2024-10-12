@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.APIs.Controllers
+namespace Route.Talaat.APIs.Controllers
 {
     public static class AssemblyInformation
     {

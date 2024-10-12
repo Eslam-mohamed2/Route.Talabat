@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Route.Talabat.Core.Domain.Common;
-using Route.Talabat.Core.Domain.Entities.Products;
-using Route.Talabat.Infrastructure.Persistence.Data.Configurations.Base;
+using Route.Talaat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talaat.Infrastructure.Persistence.Data.Configurations.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Persistence.Data.Configurations.Products
+namespace Route.Talaat.Infrastructure.Persistence.Data.Configurations.Products
 {
     internal class BrandsConfigurations : BaseAuditableEntityConfigurations<ProductBrand ,int>
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talabat.Core.Domain.Common;
-using Route.Talabat.Core.Domain.Entities.Products;
+using Route.Talaat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Entities.Products;
 
-namespace Route.Talabat.Infrastructure.Persistence.Data
+namespace Route.Talaat.Infrastructure.Persistence.Data
 {
     public class StoreContext : DbContext
     {

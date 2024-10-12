@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Route.Talabat.Core.Application.Abstraction.Models.Products;
-using Route.Talabat.Core.Application.Abstraction.Services.Products;
-using Route.Talabat.Core.Domain.Contracts;
-using Route.Talabat.Core.Domain.Entities.Products;
+using Route.Talaat.Core.Application.Abstraction.Models.Products;
+using Route.Talaat.Core.Application.Abstraction.Services.Products;
+using Route.Talaat.Core.Domain.Contracts;
+using Route.Talaat.Core.Domain.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using Route.Talabat.Core.Application.Abstraction.Services;
 
-namespace Route.Talabat.Core.Application.Services.Products
+namespace Route.Talaat.Core.Application.Services.Products
 {
     internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {

@@ -1,4 +1,4 @@
-namespace Route.Talabat.Dashboard
+namespace Route.Talaat.Dashboard
 {
     public class Program
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Persistence
+namespace Route.Talaat.Infrastructure.Persistence
 {
     public static class AssemblyInformation
     {

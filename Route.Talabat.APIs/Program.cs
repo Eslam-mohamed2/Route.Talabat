@@ -1,9 +1,9 @@
-using Route.Talabat.APIs.Extensions;
-using Route.Talabat.APIs.Services;
-using Route.Talabat.Core.Application.Abstraction;
-using Route.Talabat.Infrastructure.Persistence;
-
-namespace Route.Talabat.APIs
+using Route.Talaat.APIs.Extensions;
+using Route.Talaat.APIs.Services;
+using Route.Talaat.Core.Application.Abstraction;
+using Route.Talaat.Infrastructure.Persistence;
+using Route.Talaat.Core.Application;
+namespace Route.Talaat.APIs
 {
     public class Program
     {
@@ -39,6 +39,8 @@ namespace Route.Talabat.APIs
 
             webApplicationBuilder.Services.AddHttpContextAccessor();
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService) , typeof(LoggedInUserService));
+
+            webApplicationBuilder.Services.AddApplicationServices();
 
             #endregion
 

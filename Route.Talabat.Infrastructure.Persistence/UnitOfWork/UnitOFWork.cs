@@ -1,8 +1,8 @@
-﻿using Route.Talabat.Core.Domain.Common;
-using Route.Talabat.Core.Domain.Contracts;
-using Route.Talabat.Core.Domain.Entities.Products;
-using Route.Talabat.Infrastructure.Persistence.Data;
-using Route.Talabat.Infrastructure.Persistence.Repositories;
+﻿using Route.Talaat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Contracts;
+using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talaat.Infrastructure.Persistence.Data;
+using Route.Talaat.Infrastructure.Persistence.Repositories;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Persistence.UnitOfWork
+namespace Route.Talaat.Infrastructure.Persistence.UnitOfWork
 {
     internal class UnitOFWork : IUnitOfWork
     {

@@ -1,21 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talabat.Core.Domain.Common;
-using Route.Talabat.Core.Domain.Contracts;
-using Route.Talabat.Infrastructure.Persistence.Data;
+using Route.Talaat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Contracts;
+using Route.Talaat.Infrastructure.Persistence.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Infrastructure.Persistence.Repositories
+namespace Route.Talaat.Infrastructure.Persistence.Repositories
 {
     internal class GenericRepository<TEntity, TKey> (StoreContext _dbContext) : IGenericRepository<TEntity, TKey>
         where TEntity : BaseAuditableEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool WithTracking = false)
-        => WithTracking?  await _dbContext.Set<TEntity>().ToListAsync() : await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
+        => WithTracking?  await _dbContext.Set<TEntity>().ToListAsync() : await _dbContext.Set<TEntity>().AsNoTrackingWithIdentityResolution().ToListAsync();
         ///{
         ///    if (WithTracking) return  await _dbContext.Set<TEntity>().ToListAsync();
         ///    return  await _dbContext.Set<TEntity>().AsNoTracking().ToListAsync();

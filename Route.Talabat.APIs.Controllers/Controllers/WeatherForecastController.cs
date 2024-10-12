@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Route.Talabat.APIs.Models;
+using Route.Talaat.APIs.Models;
 
-namespace Route.Talabat.APIs.Controllers
+namespace Route.Talaat.APIs.Controllers
 {
     [ApiController]
     [Route("[controller]")]

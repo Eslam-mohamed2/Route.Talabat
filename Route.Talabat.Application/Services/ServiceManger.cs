@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using Route.Talabat.Core.Application.Abstraction.Services;
-using Route.Talabat.Core.Application.Abstraction.Services.Products;
-using Route.Talabat.Core.Application.Services.Products;
-using Route.Talabat.Core.Domain.Contracts;
+using Route.Talaat.Core.Application.Abstraction.Services;
+using Route.Talaat.Core.Application.Abstraction.Services.Products;
+using Route.Talaat.Core.Application.Services.Products;
+using Route.Talaat.Core.Domain.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Core.Application.Services
+namespace Route.Talaat.Core.Application.Services
 {
     internal class ServiceManger : IServiceManger
     {

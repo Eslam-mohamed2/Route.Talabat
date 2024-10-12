@@ -1,4 +1,4 @@
-﻿namespace Route.Talabat.Core.Domain.Entities.Products
+﻿namespace Route.Talaat.Core.Domain.Entities.Products
 {
     public class ProductCategory : BaseAuditableEntity<int>
     {
