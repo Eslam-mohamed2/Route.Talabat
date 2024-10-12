@@ -1,12 +1,7 @@
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Route.Talabat.APIs.Extensions;
 using Route.Talabat.APIs.Services;
 using Route.Talabat.Core.Application.Abstraction;
-using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Infrastructure.Persistence;
-using Route.Talabat.Infrastructure.Persistence.Data;
 
 namespace Route.Talabat.APIs
 {
@@ -24,6 +19,8 @@ namespace Route.Talabat.APIs
 
             // Add services to the container.
             #region Configure Services
+
+            webApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
 
             webApplicationBuilder.Services.AddControllers(); // Register the Required Services
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

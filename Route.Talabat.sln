@@ -21,19 +21,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dashboard", "Dashboard", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.APIs", "Route.Talabat.APIs\Route.Talabat.APIs.csproj", "{022BBE3F-E184-4861-A738-58A9BA911F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Core.Domain", "Route.Talabat.Domain\Route.Talabat.Core.Domain.csproj", "{A8FE386D-E09E-4402-961B-8C621C224353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Core.Domain", "Route.Talabat.Domain\Route.Talabat.Core.Domain.csproj", "{A8FE386D-E09E-4402-961B-8C621C224353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Core.Application", "Route.Talabat.Application\Route.Talabat.Core.Application.csproj", "{875F308E-0000-439C-A355-C762E403A7C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Core.Application", "Route.Talabat.Application\Route.Talabat.Core.Application.csproj", "{875F308E-0000-439C-A355-C762E403A7C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Core.Application.Abstraction", "Route.Talabat.Core.Application.Astraction\Route.Talabat.Core.Application.Abstraction.csproj", "{C704E83E-7EE8-4DF0-BCDD-E72D77076106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Core.Application.Abstraction", "Route.Talabat.Core.Application.Astraction\Route.Talabat.Core.Application.Abstraction.csproj", "{C704E83E-7EE8-4DF0-BCDD-E72D77076106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Infrastructure", "Route.Talabat.Infrastructure\Route.Talabat.Infrastructure.csproj", "{58B3278C-3C63-4EF1-8417-C79210571355}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Infrastructure", "Route.Talabat.Infrastructure\Route.Talabat.Infrastructure.csproj", "{58B3278C-3C63-4EF1-8417-C79210571355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Infrastructure.Persistence", "Route.Talabat.Infrastructure.Persistence\Route.Talabat.Infrastructure.Persistence.csproj", "{523A8BF6-C21A-4B9F-8D44-92C38B0C89E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Infrastructure.Persistence", "Route.Talabat.Infrastructure.Persistence\Route.Talabat.Infrastructure.Persistence.csproj", "{523A8BF6-C21A-4B9F-8D44-92C38B0C89E4}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Route.Client", "Route.Client\Route.Client.esproj", "{13B04B33-238C-45AF-BFF7-368F0F37D70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.Dashboard", "Route.Talabat.Dashboard\Route.Talabat.Dashboard.csproj", "{D9407966-B2F5-4E92-9BD4-6F209B2B708A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Route.Talabat.Dashboard", "Route.Talabat.Dashboard\Route.Talabat.Dashboard.csproj", "{D9407966-B2F5-4E92-9BD4-6F209B2B708A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Route.Talabat.APIs.Controllers", "Route.Talabat.APIs.Controllers\Route.Talabat.APIs.Controllers.csproj", "{EE7862E3-28B2-40E4-8090-9DFA6C40C042}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{D9407966-B2F5-4E92-9BD4-6F209B2B708A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9407966-B2F5-4E92-9BD4-6F209B2B708A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9407966-B2F5-4E92-9BD4-6F209B2B708A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE7862E3-28B2-40E4-8090-9DFA6C40C042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7862E3-28B2-40E4-8090-9DFA6C40C042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7862E3-28B2-40E4-8090-9DFA6C40C042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7862E3-28B2-40E4-8090-9DFA6C40C042}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{523A8BF6-C21A-4B9F-8D44-92C38B0C89E4} = {4731D317-47C8-49E1-A749-D246B8656660}
 		{13B04B33-238C-45AF-BFF7-368F0F37D70E} = {D3227F7D-5DDE-494F-83CE-5B78232ACDB7}
 		{D9407966-B2F5-4E92-9BD4-6F209B2B708A} = {6FCCD9E1-CE91-43BC-8FC7-7935D9A25903}
+		{EE7862E3-28B2-40E4-8090-9DFA6C40C042} = {57EADE32-6706-4449-AA39-043CFF91DB13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BBCBF976-FB32-450E-BFCE-9535CC841B53}

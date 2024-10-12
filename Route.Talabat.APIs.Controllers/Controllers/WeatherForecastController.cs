@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Route.Talabat.APIs.Models;
 
 namespace Route.Talabat.APIs.Controllers
