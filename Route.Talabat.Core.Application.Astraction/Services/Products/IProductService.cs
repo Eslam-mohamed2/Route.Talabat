@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.Core.Application.Abstraction.Services
+namespace Route.Talabat.Core.Application.Abstraction.Services.Products
 {
     public interface IProductService
     {

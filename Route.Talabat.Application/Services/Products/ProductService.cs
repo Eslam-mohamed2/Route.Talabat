@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Route.Talabat.Core.Application.Abstraction.Models.Products;
-using Route.Talabat.Core.Application.Abstraction.Services;
+using Route.Talabat.Core.Application.Abstraction.Services.Products;
 using Route.Talabat.Core.Domain.Contracts;
 using Route.Talabat.Core.Domain.Entities.Products;
 using System;
@@ -10,18 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 //using Route.Talabat.Core.Application.Abstraction.Services;
 
-namespace Route.Talabat.Core.Application.Services
+namespace Route.Talabat.Core.Application.Services.Products
 {
-    internal class ProductService(IUnitOfWork unitOfWork ,IMapper mapper) : IProductService
+    internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
         public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
         {
-            var products = await unitOfWork.GetRepository<Product,int>().GetAllAsync();
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync();
 
             var ProductsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
 
             return ProductsToReturn;
-            
+
         }
 
         public async Task<IEnumerable<ProductToReturnDto>> GetProductAsync(int id)
@@ -29,7 +29,7 @@ namespace Route.Talabat.Core.Application.Services
             var Product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
 
             var ProductsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(Product);
-            
+
             return ProductsToReturn;
         }
 
