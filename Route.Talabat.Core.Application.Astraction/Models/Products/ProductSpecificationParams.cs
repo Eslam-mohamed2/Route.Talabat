@@ -12,6 +12,15 @@ namespace Route.Talabat.Core.Application.Abstraction.Models.Products
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
 
+        private string? search;
+
+        public string? Search
+        {
+            get { return search; }
+            set { search = value; }
+        }
+
+
         public int pageIndex { get; set; } = 1;
 
         private  const int maxPageSize = 10;

@@ -19,12 +19,12 @@ namespace Route.Talaat.Core.Application.Services.Products
     {
         public async Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSpecificationParams specParams)
         {
-            var spec = new IncludingBrandAndCategory(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.pageSize, specParams.pageIndex);
+            var spec = new IncludingBrandAndCategory(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.pageSize, specParams.pageIndex, specParams.Search);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecificationAsync(spec);
 
             var data = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
-            var CountSpec = new ProductWithFillterationForCountSpecifitions(specParams.BrandId, specParams.CategoryId);
+            var CountSpec = new ProductWithFillterationForCountSpecifitions(specParams.BrandId, specParams.CategoryId, specParams.Search);
             var Count = await unitOfWork.GetRepository<Product, int>().GetCountAsync(CountSpec);
 
             return new Pagination<ProductToReturnDto>(specParams.pageIndex,specParams.pageSize, Count) { Data = data};

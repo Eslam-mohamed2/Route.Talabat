@@ -10,11 +10,13 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
 {
     public class IncludingBrandAndCategory : BaseSpecifications<Product,int>
     {
-        public IncludingBrandAndCategory(string? sort , int? brandId,int? CategoryId,int pageSize , int PageIndex)
+        public IncludingBrandAndCategory(string? sort , int? brandId,int? CategoryId,int pageSize , int PageIndex,string? Search)
             :base(
                  p => 
+                 (string.IsNullOrEmpty(Search) || p.NormalizedName.Contains(Search))
+                 &&
                  (!brandId.HasValue || p.BrandId == brandId)
-                 &
+                 &&
                  (!CategoryId.HasValue || p.CategoryId == CategoryId)
                  )
         {
