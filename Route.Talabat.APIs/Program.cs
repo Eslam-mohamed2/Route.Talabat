@@ -59,8 +59,9 @@ namespace Route.Talaat.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
