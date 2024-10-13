@@ -23,5 +23,19 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Products
             return Ok(product);
         }
 
+        [HttpGet("Brands")] // Get: /api/Products/brands
+        public async Task<ActionResult<IEnumerable<BrandDto>>> GetBrands()
+        {
+            var brands = await serviceManger.ProductService.GetBrandsAsync();
+            return Ok(brands);
+        }
+
+        [HttpGet("Categories")] // Get: /api/Products/brands
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
+        {
+            var categories = await serviceManger.ProductService.GetCategoriesAsync();
+            return Ok(categories);
+        }
+            
     }
 }
