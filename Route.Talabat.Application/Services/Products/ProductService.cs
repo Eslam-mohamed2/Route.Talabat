@@ -15,9 +15,9 @@ namespace Route.Talaat.Core.Application.Services.Products
 {
     internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort)
         {
-            var spec = new IncludingBrandAndCategory();
+            var spec = new IncludingBrandAndCategory(sort);
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecificationAsync(spec);
 
             var ProductsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(products);

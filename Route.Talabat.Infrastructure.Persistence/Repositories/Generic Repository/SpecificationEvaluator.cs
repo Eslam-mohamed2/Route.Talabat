@@ -21,6 +21,13 @@ namespace Route.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposito
             {
                 Query = Query.Where(spec.Criteria);
             }
+            if(spec.OrderByDesc is not null)
+            {
+                Query = Query.OrderByDescending(spec.OrderByDesc);
+            } else if (spec.OrderBy is not null)
+            {
+                Query = Query.OrderBy(spec.OrderBy);
+            }
 
             Query = spec.Includes.Aggregate(Query,(CurrentQuery,IncludeExpression) => CurrentQuery.Include(IncludeExpression));
 
