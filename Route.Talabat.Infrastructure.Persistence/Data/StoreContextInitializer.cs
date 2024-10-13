@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talaat.Core.Domain.Contracts;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Domain.Contracts.Persistence;
 using System.Text.Json;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data

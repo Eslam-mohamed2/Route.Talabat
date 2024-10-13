@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talaat.Core.Domain.Contracts
+namespace Route.Talabat.Core.Domain.Contracts.Persistence
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        IGenericRepository<TEntity, TKey> GetRepository<TEntity , TKey>()
+        IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
             where TEntity : BaseAuditableEntity<TKey> where TKey : IEquatable<TKey>;
         Task<int> CompleteAsync();
     }

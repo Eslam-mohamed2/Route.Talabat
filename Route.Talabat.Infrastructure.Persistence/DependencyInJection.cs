@@ -2,10 +2,10 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Route.Talaat.Core.Domain.Contracts;
 using Route.Talaat.Infrastructure.Persistence.Data;
 using Route.Talaat.Infrastructure.Persistence.Data.Interceptors;
 using Route.Talaat.Infrastructure.Persistence.UnitOfWork;
+using Route.Talabat.Core.Domain.Contracts.Persistence;
 
 namespace Route.Talaat.Infrastructure.Persistence
 {

@@ -2,7 +2,7 @@
 using Route.Talaat.Core.Application.Abstraction.Services;
 using Route.Talaat.Core.Application.Abstraction.Services.Products;
 using Route.Talaat.Core.Application.Services.Products;
-using Route.Talaat.Core.Domain.Contracts;
+using Route.Talabat.Core.Domain.Contracts.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +18,14 @@ namespace Route.Talaat.Core.Application.Services
 
         private readonly Lazy<IProductService> _productService;
 
-        public ServiceManger(IUnitOfWork unitOfWork , IMapper mapper)
+        public ServiceManger(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork,_mapper));
+            _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper));
         }
 
         public IProductService ProductService => _productService.Value;
-       
+
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Route.Talaat.Core.Domain.Common;
-using Route.Talaat.Core.Domain.Contracts;
 using Route.Talaat.Core.Domain.Entities.Products;
 using Route.Talaat.Infrastructure.Persistence.Data;
 using Route.Talaat.Infrastructure.Persistence.Repositories;
+using Route.Talabat.Core.Domain.Contracts.Persistence;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
