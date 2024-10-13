@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Application.Abstraction.Models.Employees;
+using Route.Talabat.Core.Domain.Entities.Employees;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,8 @@ namespace Route.Talaat.Core.Application.Mapping
             CreateMap<ProductBrand, BrandDto>();
 
             CreateMap<ProductCategory, CategoryDto>();
+
+            CreateMap<Employee, EmployeeToReturnDto>();
         }
     }
 }
