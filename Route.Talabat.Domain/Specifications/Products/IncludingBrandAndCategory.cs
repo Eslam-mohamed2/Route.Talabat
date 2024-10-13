@@ -10,8 +10,13 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
 {
     public class IncludingBrandAndCategory : BaseSpecifications<Product,int>
     {
-        public IncludingBrandAndCategory(string? sort)
-            :base()
+        public IncludingBrandAndCategory(string? sort , int? brandId,int? CategoryId)
+            :base(
+                 p => 
+                 (!brandId.HasValue || p.BrandId == brandId)
+                 &&
+                 (!CategoryId.HasValue || p.CategoryId == CategoryId)
+                 )
         {
 
             AddIncludes();

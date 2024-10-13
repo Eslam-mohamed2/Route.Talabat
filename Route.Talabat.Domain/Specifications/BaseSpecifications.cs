@@ -17,12 +17,17 @@ namespace Route.Talabat.Core.Domain.Specifications
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; } = null;
 
-        public BaseSpecifications()
+        protected BaseSpecifications()
         {
-            Includes = new List<Expression<Func<TEntity, object>>>();
+
         }
 
-        public BaseSpecifications(TKey id)
+        protected BaseSpecifications(Expression<Func<TEntity, bool>> CriteriaExpression)
+        {
+            Criteria = CriteriaExpression;
+        }
+
+        protected BaseSpecifications(TKey id)
         {
             Criteria = E => E.Id.Equals(id);
             //Includes = new List<Expression<Func<TEntity, object>>>();
