@@ -29,6 +29,11 @@ namespace Route.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposito
                 Query = Query.OrderBy(spec.OrderBy);
             }
 
+            if (spec.IsPaginationEnabled)
+            {
+                Query = Query.Skip(spec.Skip).Take(spec.Take);
+            }
+
             Query = spec.Includes.Aggregate(Query,(CurrentQuery,IncludeExpression) => CurrentQuery.Include(IncludeExpression));
 
             return Query;

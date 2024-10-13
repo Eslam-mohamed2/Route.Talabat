@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Application.Abstraction.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

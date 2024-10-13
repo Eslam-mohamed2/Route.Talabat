@@ -10,11 +10,11 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
 {
     public class IncludingBrandAndCategory : BaseSpecifications<Product,int>
     {
-        public IncludingBrandAndCategory(string? sort , int? brandId,int? CategoryId)
+        public IncludingBrandAndCategory(string? sort , int? brandId,int? CategoryId,int pageSize , int PageIndex)
             :base(
                  p => 
                  (!brandId.HasValue || p.BrandId == brandId)
-                 &&
+                 &
                  (!CategoryId.HasValue || p.CategoryId == CategoryId)
                  )
         {
@@ -23,9 +23,7 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
 
             AddOrderBy(p => p.Name);
 
-            if (!string.IsNullOrEmpty(sort))
-            {
-                switch(sort)
+            switch(sort)
                 {
                     case "nameDesc":
                         AddOrderByDesc(p => p.Name);
@@ -43,8 +41,8 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
                         break;
                     
                 }
-            }
-            
+
+            ApplyPagination(pageSize * (PageIndex - 1), pageSize);
         }
 
         public IncludingBrandAndCategory(int id)

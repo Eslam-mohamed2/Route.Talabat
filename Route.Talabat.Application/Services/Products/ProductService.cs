@@ -2,6 +2,7 @@
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Application.Abstraction.Services.Products;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Application.Abstraction.Models.Products;
 using Route.Talabat.Core.Domain.Contracts.Persistence;
 using Route.Talabat.Core.Domain.Specifications.Products;
 using System;
@@ -15,9 +16,9 @@ namespace Route.Talaat.Core.Application.Services.Products
 {
     internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort,int? brandId,int? CategoryId)
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSpecificationParams specParams)
         {
-            var spec = new IncludingBrandAndCategory(sort, brandId, CategoryId);
+            var spec = new IncludingBrandAndCategory(specParams.Sort, specParams.BrandId, specParams.CategoryId, specParams.pageSize , specParams.pageIndex);
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecificationAsync(spec);
 
             var ProductsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
