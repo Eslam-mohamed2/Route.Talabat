@@ -1,4 +1,6 @@
 ﻿using Route.Talaat.Core.Application.Abstraction.Models.Products;
+using Route.Talabat.Core.Application.Abstraction.Common;
+using Route.Talabat.Core.Application.Abstraction.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Route.Talaat.Core.Application.Abstraction.Services.Products
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductToReturnDto>> GetProductsAsync();
+        Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSpecificationParams specParams);
         Task<ProductToReturnDto> GetProductAsync(int id);
         Task<IEnumerable<BrandDto>> GetBrandsAsync();
         Task<IEnumerable<CategoryDto>> GetCategoriesAsync();

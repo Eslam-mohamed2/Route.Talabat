@@ -18,6 +18,7 @@ namespace Route.Talaat.Infrastructure.Persistence.Data.Configurations.Products
             base.Configure(builder);
 
             builder.Property(P => P.Name).IsRequired().HasMaxLength(100);
+            builder.Property(P => P.NormalizedName).IsRequired().HasMaxLength(100);
 
             builder.Property(P => P.Description).IsRequired();
 
