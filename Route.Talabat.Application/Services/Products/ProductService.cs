@@ -24,11 +24,11 @@ namespace Route.Talaat.Core.Application.Services.Products
 
         }
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductAsync(int id)
+        public async Task<ProductToReturnDto> GetProductAsync(int id)
         {
-            var Product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
+            var Product = await unitOfWork.GetRepository<Product, int>().GetAsync(id); 
 
-            var ProductsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(Product);
+            var ProductsToReturn = mapper.Map<ProductToReturnDto>(Product);
 
             return ProductsToReturn;
         }
