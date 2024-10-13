@@ -1,6 +1,6 @@
-﻿namespace Route.Talabat.Core.Domain.Entities.Products
+﻿namespace Route.Talaat.Core.Domain.Entities.Products
 {
-    public class Product : BaseEntity<int>
+    public class Product : BaseAuditableEntity<int>
     {
         public required string Name { get; set; }
         public required string Description { get; set; }

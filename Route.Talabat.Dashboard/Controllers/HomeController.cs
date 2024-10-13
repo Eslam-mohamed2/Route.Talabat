@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Route.Talabat.Dashboard.Models;
+using Route.Talaat.Dashboard.Models;
 using System.Diagnostics;
 
-namespace Route.Talabat.Dashboard.Controllers
+namespace Route.Talaat.Dashboard.Controllers
 {
     public class HomeController : Controller
     {

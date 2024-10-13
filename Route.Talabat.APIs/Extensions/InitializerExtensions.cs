@@ -1,6 +1,6 @@
-﻿using Route.Talabat.Core.Domain.Contracts;
+﻿using Route.Talaat.Core.Domain.Contracts;
 
-namespace Route.Talabat.APIs.Extensions
+namespace Route.Talaat.APIs.Extensions
 {
     public static class InitializerExtensions
     {

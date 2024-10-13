@@ -1,17 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Route.Talabat.Core.Domain.Entities.Products;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Reflection;
+using Route.Talaat.Core.Domain.Common;
+using Route.Talaat.Core.Domain.Entities.Products;
 
-namespace Route.Talabat.Infrastructure.Persistence.Data
+namespace Route.Talaat.Infrastructure.Persistence.Data
 {
     public class StoreContext : DbContext
     {
+        public DbSet<Product> products { get; set; }
+        public DbSet<ProductBrand> brands { get; set; }
+        public DbSet<ProductCategory> categories { get; set; }
+
         public StoreContext(DbContextOptions<StoreContext> options):base(options)
         {
             
@@ -23,8 +21,21 @@ namespace Route.Talabat.Infrastructure.Persistence.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
         }
 
-        public DbSet<Product> products { get; set; }
-        public DbSet<ProductBrand> brands { get; set; }
-        public DbSet<ProductCategory> categories { get; set; }
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity<int>>()
+                .Where(entity => entity.State is EntityState.Added or EntityState.Modified))
+            {
+                if (entry.State is EntityState.Added) 
+                {
+                    entry.Entity.CreatedBy = "";
+                    entry.Entity.CreatedOn = DateTime.UtcNow;
+                }
+                entry.Entity.LastModifiedBy = "";
+                entry.Entity.LastModifiedOn = DateTime.UtcNow;
+            }
+
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
     }
 }

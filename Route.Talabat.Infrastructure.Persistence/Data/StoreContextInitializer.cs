@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Route.Talabat.Core.Domain.Contracts;
-using Route.Talabat.Core.Domain.Entities.Products;
+using Route.Talaat.Core.Domain.Contracts;
+using Route.Talaat.Core.Domain.Entities.Products;
 using System.Text.Json;
 
-namespace Route.Talabat.Infrastructure.Persistence.Data
+namespace Route.Talaat.Infrastructure.Persistence.Data
 {
     internal class StoreContextInitializer (StoreContext _dbcontext) : IStoreContextInitializer
     {

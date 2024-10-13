@@ -1,4 +1,4 @@
-namespace Route.Talabat.APIs.Models
+namespace Route.Talaat.APIs.Models
 {
     public class WeatherForecast
     {

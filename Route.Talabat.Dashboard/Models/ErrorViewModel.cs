@@ -1,4 +1,4 @@
-namespace Route.Talabat.Dashboard.Models
+namespace Route.Talaat.Dashboard.Models
 {
     public class ErrorViewModel
     {

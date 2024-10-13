@@ -1,1 +1,1 @@
-﻿global using Route.Talabat.Core.Domain.Common;
+﻿global using Route.Talaat.Core.Domain.Common;

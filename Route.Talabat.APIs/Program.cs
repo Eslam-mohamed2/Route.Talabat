@@ -1,12 +1,9 @@
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Route.Talabat.APIs.Extensions;
-using Route.Talabat.Core.Domain.Contracts;
-using Route.Talabat.Infrastructure.Persistence;
-using Route.Talabat.Infrastructure.Persistence.Data;
-
-namespace Route.Talabat.APIs
+using Route.Talaat.APIs.Extensions;
+using Route.Talaat.APIs.Services;
+using Route.Talaat.Core.Application.Abstraction;
+using Route.Talaat.Infrastructure.Persistence;
+using Route.Talaat.Core.Application;
+namespace Route.Talaat.APIs
 {
     public class Program
     {
@@ -23,6 +20,8 @@ namespace Route.Talabat.APIs
             // Add services to the container.
             #region Configure Services
 
+            webApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly);
+
             webApplicationBuilder.Services.AddControllers(); // Register the Required Services
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
@@ -37,6 +36,11 @@ namespace Route.Talabat.APIs
             //DependencyInJection.AddPersistence(webApplicationBuilder.Services, webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddHttpContextAccessor();
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService) , typeof(LoggedInUserService));
+
+            webApplicationBuilder.Services.AddApplicationServices();
 
             #endregion
 
