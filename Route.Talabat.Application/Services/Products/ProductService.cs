@@ -28,7 +28,8 @@ namespace Route.Talaat.Core.Application.Services.Products
 
         public async Task<ProductToReturnDto> GetProductAsync(int id)
         {
-            var Product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
+            var spec = new IncludingBrandAndCategory(id);
+            var Product = await unitOfWork.GetRepository<Product, int>().GetWithSpecificationAsync(spec);
 
             var ProductsToReturn = mapper.Map<ProductToReturnDto>(Product);
 

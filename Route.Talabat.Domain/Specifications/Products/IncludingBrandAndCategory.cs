@@ -12,6 +12,19 @@ namespace Route.Talabat.Core.Domain.Specifications.Products
         public IncludingBrandAndCategory()
             :base()
         {
+            AddIncludes();
+        }
+
+        public IncludingBrandAndCategory(int id)
+            :base(id)
+        {
+            AddIncludes();
+        }
+
+
+
+        private void AddIncludes()
+        {
             Includes.Add(P => P.Brand!);
             Includes.Add(P => P.Category!);
         }
