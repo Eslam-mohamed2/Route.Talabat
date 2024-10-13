@@ -2,6 +2,7 @@
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Application.Abstraction.Services;
+using Route.Talabat.Core.Application.Abstraction.Common;
 using Route.Talabat.Core.Application.Abstraction.Models.Products;
 
 namespace Route.Talabat.APIs.Controllers.Controllers.Products
@@ -9,7 +10,7 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Products
     public class ProductsController(IServiceManger serviceManger) : BaseApiController
     {
         [HttpGet] // Get: /api/Products
-        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecificationParams specParams )
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecificationParams specParams )
         {
             var products = await serviceManger.ProductService.GetProductsAsync(specParams);
             return Ok(products);
