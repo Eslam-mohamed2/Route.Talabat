@@ -93,6 +93,7 @@ namespace Route.Talaat.APIs
             }
             app.UseMiddleware<CustExceptionHandlerMiddleware>();
             app.UseHttpsRedirection();
+            app.UseStatusCodePagesWithReExecute("/Errors/{Code}");
 
             app.UseStaticFiles();
 
