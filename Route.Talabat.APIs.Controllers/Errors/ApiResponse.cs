@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.APIs.Controllers.Errors
 {
-    internal class ApiResponse
+    public class ApiResponse
     {
         public int statusCode { get; set; }
 

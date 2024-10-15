@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talabat.APIs.Controllers.Errors;
 using System;
@@ -33,6 +34,10 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest/{id}")] // Get: /api/buggy/badrequest
         public IActionResult GetValidationError(int id) // => 4000
         { 
+            if(!ModelState.IsValid)
+            {
+              
+            }
             return Ok();  //400
         }
        
