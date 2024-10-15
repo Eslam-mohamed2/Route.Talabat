@@ -31,7 +31,7 @@ namespace Route.Talaat.Core.Application
                 var mapper = ServiceProvider.GetRequiredService<IMapper>();
                 var Configuration = ServiceProvider.GetRequiredService<IConfiguration>();
                 var basketRepository = ServiceProvider.GetRequiredService<IBasketRepository>();
-                return new BasketService(basketRepository,mapper, Configuration);   
+                return () => new BasketService(basketRepository, mapper, Configuration);
             });
 ;           return services;
         }
