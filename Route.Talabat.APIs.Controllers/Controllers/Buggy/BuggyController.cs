@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talaat.APIs.Controllers.Base;
+using Route.Talabat.APIs.Controllers.Errors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("notFound")] // Get: /api/buggy/notfound
         public IActionResult GetNotFoundRequest()
         {
-            return NotFound(new {StatusCode = 404 , Message = "Not Found"}); // 404
+            return NotFound(new ApiResponse(404)); // 404
         }
         [HttpGet("servererror")] // Get: /api/buggy/notfound
         public IActionResult GetServerError() 
@@ -26,7 +27,7 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest")] // Get: /api/buggy/badrequest/one
         public IActionResult GetBadRequest()
         {
-            return BadRequest(new { StatusCode = 400, Message = "Bad Request" });
+            return BadRequest(new ApiResponse(400));
         }
 
         [HttpGet("badrequest/{id}")] // Get: /api/buggy/badrequest
@@ -36,9 +37,9 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         }
        
         [HttpGet("unauthorized")] // Get: /api/buggy/unauthorized
-        public IActionResult GetUnauthorizedError()
+        public IActionResult GetUnauthorizedError() 
         {
-            return Unauthorized(new { StatusCode = 401, Message = "Unauthorized" });
+            return Unauthorized(new ApiResponse(401));
         }
         
         [HttpGet("forbidden")] // Get: /api/buggy/forbidden
