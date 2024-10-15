@@ -6,6 +6,7 @@ using Route.Talaat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.APIs.Middlewares;
+using Route.Talabat.Infrastructure;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -73,7 +74,7 @@ namespace Route.Talaat.APIs
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService) , typeof(LoggedInUserService));
 
             webApplicationBuilder.Services.AddApplicationServices();
-
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
