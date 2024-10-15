@@ -5,6 +5,7 @@ using Route.Talaat.Infrastructure.Persistence;
 using Route.Talaat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Controllers.Errors;
+using Route.Talabat.APIs.Middlewares;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -90,6 +91,7 @@ namespace Route.Talaat.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<CustExceptionHandlerMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();

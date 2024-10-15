@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talabat.APIs.Controllers.Errors;
+using Route.Talabat.APIs.Controllers.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,10 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("notFound")] // Get: /api/buggy/notfound
         public IActionResult GetNotFoundRequest()
         {
-            return NotFound(new ApiResponse(404)); // 404
+            throw new NotFoundException();
+            //return NotFound(new ApiResponse(404)); // 404
         }
-        [HttpGet("servererror")] // Get: /api/buggy/notfound
+        [HttpGet("servererror")] // Get: /api/buggy/servererror
         public IActionResult GetServerError() 
         {
             throw new Exception(); //500
@@ -32,12 +34,10 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
         }
 
         [HttpGet("badrequest/{id}")] // Get: /api/buggy/badrequest
-        public IActionResult GetValidationError(int id) // => 4000
+        public IActionResult GetValidationError(int id) // => 400
         { 
-            if(!ModelState.IsValid)
-            {
-              
-            }
+            //if(!ModelState.IsValid)
+            
             return Ok();  //400
         }
        

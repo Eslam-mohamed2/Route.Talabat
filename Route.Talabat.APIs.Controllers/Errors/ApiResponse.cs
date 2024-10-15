@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Route.Talabat.APIs.Controllers.Errors
@@ -29,6 +30,12 @@ namespace Route.Talabat.APIs.Controllers.Errors
                 500 => "Errors are the path to the dark side. Errors lead to anger. Anger leaeds to hate. Hate leads to career change",
                 _ => null
             };
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
         }
     }
 }
