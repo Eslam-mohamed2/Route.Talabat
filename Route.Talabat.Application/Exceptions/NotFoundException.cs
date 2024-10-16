@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talabat.APIs.Controllers.Exceptions
+namespace Route.Talabat.Core.Application.Exceptions
 {
     public class NotFoundException : ApplicationException
     {
-        public NotFoundException()
-            : base("Not Found")
+        public NotFoundException(string name, object key)
+            : base($"{name} Wtih ({key} is not found")
         {
 
         }

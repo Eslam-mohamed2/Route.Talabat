@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talabat.APIs.Controllers.Errors;
-using Route.Talabat.APIs.Controllers.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +15,10 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
     {
 
         [HttpGet("notFound")] // Get: /api/buggy/notfound
-        public IActionResult GetNotFoundRequest()
+        public IActionResult GetNotFoundError()
         {
-            throw new NotFoundException();
-            //return NotFound(new ApiResponse(404)); // 404
+            //throw new NotFoundException();
+            return NotFound(new ApiResponse(404)); // 404
         }
         [HttpGet("servererror")] // Get: /api/buggy/servererror
         public IActionResult GetServerError() 

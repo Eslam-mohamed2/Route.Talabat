@@ -2,6 +2,7 @@
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Application.Abstraction.Services.Products;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Application.Exceptions;
 using Route.Talabat.Core.Domain.Contracts.Persistence;
 using Route.Talabat.Core.Domain.Specifications.Products;
 using System;
@@ -30,6 +31,8 @@ namespace Route.Talaat.Core.Application.Services.Products
         {
             var spec = new IncludingBrandAndCategory(id);
             var Product = await unitOfWork.GetRepository<Product, int>().GetWithSpecificationAsync(spec);
+            if (Product is null) 
+                throw new NotFoundException(nameof(Product),id);
 
             var ProductsToReturn = mapper.Map<ProductToReturnDto>(Product);
 

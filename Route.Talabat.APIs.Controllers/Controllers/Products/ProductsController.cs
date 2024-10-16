@@ -19,8 +19,8 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Products
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProduct(int id) 
         { 
             var product = await serviceManger.ProductService.GetProductAsync(id);
-            if (product == null) 
-                return NotFound(new ApiResponse(404 , $"The Product With Id: {id} is not found."));
+            //if (product == null) 
+            //    return NotFound(new ApiResponse(404 , $"The Product With Id: {id} is not found."));
             return Ok(product);
         }
 

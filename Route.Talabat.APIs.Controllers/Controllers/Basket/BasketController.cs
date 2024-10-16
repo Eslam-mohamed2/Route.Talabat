@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.APIs.Controllers.Controllers.Basket
 {
-    internal class BasketController(IServiceManger serviceManger) : BaseApiController
+    public class BasketController(IServiceManger serviceManger) : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<CustomerBasketDto>> GetBasket(string Id)
@@ -24,6 +24,7 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Basket
             var basket = await serviceManger.BasketService.UpdateCustomerBasketAsync(basketDto);
             return Ok(basket);
         }
+        [HttpDelete]
         public async Task DeleteBasket(string id)
         {
             await serviceManger.BasketService.DeleteCustomerBasketAsync(id);

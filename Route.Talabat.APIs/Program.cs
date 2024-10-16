@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Infrastructure;
+using System.Diagnostics;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -24,19 +25,23 @@ namespace Route.Talaat.APIs
             // Add services to the container.
             #region Configure Services
 
-            webApplicationBuilder.Services.AddControllers()
+            webApplicationBuilder.Services
+                .AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = false;
                     options.InvalidModelStateResponseFactory = (ActionContext) =>
                     {
-                        var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0).ToList()
-                                     .SelectMany(P => P.Value.Errors)
-                                     .Select(E => E.ErrorMessage);
+                        var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
+                        .Select(P => new ApiValidationErrorResponse.ValidationError() 
+                        {
+                            Field = P.Key,
+                            Errors = P.Value.Errors.Select(E => E.ErrorMessage)
+                        });
 
                         return new BadRequestObjectResult(new ApiValidationErrorResponse()
                         {
-                            Errors = errors
+                            Errors = (IEnumerable<string>)errors
                         });
                     };
                 })
@@ -92,7 +97,7 @@ namespace Route.Talaat.APIs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseMiddleware<CustExceptionHandlerMiddleware>();
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseHttpsRedirection();
             app.UseStatusCodePagesWithReExecute("/Errors/{Code}");
 
