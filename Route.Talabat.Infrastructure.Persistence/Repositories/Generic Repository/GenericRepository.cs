@@ -39,8 +39,9 @@ namespace Route.Talaat.Infrastructure.Persistence.Repositories
 
         public void Update(TEntity entity) => _dbContext.Set<TEntity>().Update(entity);
 
-       
-
-      
+        public async Task<int> GetCountAsync(ISpecifications<TEntity, TKey> spec)
+        {
+            return await SpecificationEvaluator<TEntity, TKey>.GetQuery(_dbContext.Set<TEntity>(), spec).CountAsync();
+        }
     }
 }

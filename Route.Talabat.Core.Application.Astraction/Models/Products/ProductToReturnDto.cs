@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Route.Talaat.Core.Application.Abstraction.Models.Products
+namespace Route.Talabat.Core.Application.Abstraction.Models.Products
 {
     public class ProductToReturnDto
     {
