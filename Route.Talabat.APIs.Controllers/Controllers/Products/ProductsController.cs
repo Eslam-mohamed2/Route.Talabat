@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Application.Abstraction.Services;
+using Route.Talabat.Core.Application.Abstraction.Common;
+using Route.Talabat.Core.Application.Abstraction.Models.Products;
 
 
 namespace Route.Talabat.APIs.Controllers.Controllers.Products
