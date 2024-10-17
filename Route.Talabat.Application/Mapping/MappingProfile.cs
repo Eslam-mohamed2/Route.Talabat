@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Core.Application.Abstraction.Models.Basket;
 using Route.Talabat.Core.Application.Abstraction.Models.Employees;
 using Route.Talabat.Core.Application.Abstraction.Models.Products;
 using Route.Talabat.Core.Application.Mapping;
+using Route.Talabat.Core.Domain.Entities.Basket;
 using Route.Talabat.Core.Domain.Entities.Employees;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,10 @@ namespace Route.Talaat.Core.Application.Mapping
             CreateMap<ProductCategory, CategoryDto>();
 
             CreateMap<Employee, EmployeeToReturnDto>();
+
+            CreateMap<CustomerBasket,CustomerBasketDto>().ReverseMap();
+
+            CreateMap<BasketItem, BasketItemDto>().ReverseMap();
         }
     }
 }

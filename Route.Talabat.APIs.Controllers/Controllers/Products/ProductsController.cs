@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
 using Route.Talaat.Core.Application.Abstraction.Services;
-using Route.Talabat.Core.Application.Abstraction.Common;
-using Route.Talabat.Core.Application.Abstraction.Models.Products;
+
 
 namespace Route.Talabat.APIs.Controllers.Controllers.Products
 {
@@ -20,8 +19,8 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Products
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProduct(int id) 
         { 
             var product = await serviceManger.ProductService.GetProductAsync(id);
-            if (product == null) 
-                return NotFound(new {statusCode = 404 , message = "not Found"});
+            //if (product == null) 
+            //    return NotFound(new ApiResponse(404 , $"The Product With Id: {id} is not found."));
             return Ok(product);
         }
 
