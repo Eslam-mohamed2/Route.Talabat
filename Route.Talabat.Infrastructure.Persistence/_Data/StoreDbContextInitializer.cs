@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data
 {
-    internal class StoreContextInitializer (StoreContext _dbcontext) : IStoreContextInitializer
+    internal class StoreDbContextInitializer (StoreDbContext _dbcontext) : IStoreContextInitializer
     {
         public async Task InitializeAsync()
         {

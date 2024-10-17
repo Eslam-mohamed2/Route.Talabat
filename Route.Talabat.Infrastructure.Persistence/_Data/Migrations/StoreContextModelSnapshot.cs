@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Route.Talaat.Infrastructure.Persistence.Data;
 
@@ -11,12 +10,10 @@ using Route.Talaat.Infrastructure.Persistence.Data;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
-    [Migration("20241013124838_NormalizedNameMigration")]
-    partial class NormalizedNameMigration
+    [DbContext(typeof(StoreDbContext))]
+    partial class StoreContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

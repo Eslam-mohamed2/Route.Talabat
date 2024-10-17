@@ -14,9 +14,9 @@ namespace Route.Talaat.Infrastructure.Persistence.UnitOfWork
 {
     internal class UnitOFWork : IUnitOfWork
     {
-        private readonly StoreContext _dbContext;
+        private readonly StoreDbContext _dbContext;
         private readonly ConcurrentDictionary<string, object> _repositories;
-        public UnitOFWork(StoreContext dbContext)
+        public UnitOFWork(StoreDbContext dbContext)
         {
             _dbContext = dbContext;
             _repositories = new ();

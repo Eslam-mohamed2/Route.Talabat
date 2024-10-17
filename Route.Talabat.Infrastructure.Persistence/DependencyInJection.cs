@@ -6,6 +6,7 @@ using Route.Talaat.Infrastructure.Persistence.Data;
 using Route.Talaat.Infrastructure.Persistence.Data.Interceptors;
 using Route.Talaat.Infrastructure.Persistence.UnitOfWork;
 using Route.Talabat.Core.Domain.Contracts.Persistence;
+using Route.Talabat.Infrastructure.Persistence._Identity;
 
 namespace Route.Talaat.Infrastructure.Persistence
 {
@@ -13,17 +14,31 @@ namespace Route.Talaat.Infrastructure.Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration Configuration)
         {
-            services.AddDbContext<StoreContext>((OptionsBuilder) =>
-            {
-                OptionsBuilder.UseLazyLoadingProxies()
-                .UseSqlServer(Configuration.GetConnectionString("StoreContext"));
-            });
+            #region Store DbContext
+            services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
+                {
+                    OptionsBuilder.UseLazyLoadingProxies()
+                    .UseSqlServer(Configuration.GetConnectionString("StoreContext"));
+                });
 
-            services.AddScoped<IStoreContextInitializer , StoreContextInitializer>();
+            services.AddScoped<IStoreContextInitializer, StoreDbContextInitializer>();
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
             //services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
-            services.AddScoped(typeof(IUnitOfWork) , typeof(UnitOFWork));
-            return services;    
+
+            #endregion
+
+            #region Identity Context
+
+            services.AddDbContext<StoreIdentityDbContext>((OptionsBuilder) =>
+              {
+                  OptionsBuilder.UseLazyLoadingProxies()
+                  .UseSqlServer(Configuration.GetConnectionString("IdentityContext"));
+              }); 
+
+            #endregion
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOFWork));
+            return services;
+
         }
     }
 }
