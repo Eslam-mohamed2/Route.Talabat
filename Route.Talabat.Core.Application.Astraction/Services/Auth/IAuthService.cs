@@ -11,6 +11,6 @@ namespace Route.Talabat.Core.Application.Abstraction.Services.Auth
     {
         Task<UserDto> LoginAsync(LoginDto model);
 
-        Task<UserDto> LogoutAsync(RegisterDto model);
+        Task<UserDto> RegisterAsync(RegisterDto model);
     }
 }

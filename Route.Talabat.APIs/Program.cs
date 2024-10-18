@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Route.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Route.Talabat.Infrastructure.Persistence._Identity;
+using Route.Talabat.Core.Application.Abstraction.Services.Auth;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -105,6 +106,9 @@ namespace Route.Talaat.APIs
 
             })
                 .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            webApplicationBuilder.Services.Configure<JwtSettings>(webApplicationBuilder.Configuration.GetSection("JwtSettings"));
+
             #endregion
 
             var app = webApplicationBuilder.Build();
