@@ -90,12 +90,12 @@ namespace Route.Talaat.APIs
                 iIdentityOptions.SignIn.RequireConfirmedEmail = true;
                 iIdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
 
-                iIdentityOptions.Password.RequireNonAlphanumeric = true;
-                iIdentityOptions.Password.RequiredUniqueChars = 2;
-                iIdentityOptions.Password.RequiredLength = 6;
-                iIdentityOptions.Password.RequireDigit = true;
-                iIdentityOptions.Password.RequireLowercase = true;
-                iIdentityOptions.Password.RequireUppercase = true;
+                //iIdentityOptions.Password.RequireNonAlphanumeric = true;
+                //iIdentityOptions.Password.RequiredUniqueChars = 2;
+                //iIdentityOptions.Password.RequiredLength = 6;
+                //iIdentityOptions.Password.RequireDigit = true;
+                //iIdentityOptions.Password.RequireLowercase = true;
+                //iIdentityOptions.Password.RequireUppercase = true;
 
                 iIdentityOptions.User.RequireUniqueEmail = true;
 
