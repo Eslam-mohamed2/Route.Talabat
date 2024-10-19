@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Route.Talaat.APIs.Controllers.Base;
 using Route.Talaat.Core.Application.Abstraction.Models.Products;
@@ -8,9 +10,11 @@ using Route.Talabat.Core.Application.Abstraction.Models.Products;
 
 namespace Route.Talabat.APIs.Controllers.Controllers.Products
 {
+
     public class ProductsController(IServiceManger serviceManger) : BaseApiController
     {
         [HttpGet] // Get: /api/Products
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecificationParams specParams )
         {
             var products = await serviceManger.ProductService.GetProductsAsync(specParams);

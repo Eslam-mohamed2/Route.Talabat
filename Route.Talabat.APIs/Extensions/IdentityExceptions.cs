@@ -63,6 +63,28 @@ namespace Route.Talabat.APIs.Extensions
                     };
                 });
 
+            services.AddAuthentication((authencicationOptions) =>
+            {
+                authencicationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer((Options) =>
+            {
+                Options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidAudience = configuration["JwtSettings:Audience"],
+                    ValidIssuer = configuration["JwtSettings:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Key"])),
+
+
+
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(Func<IAuthService>), (ServiceProvider) =>
             {

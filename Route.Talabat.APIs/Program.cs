@@ -132,6 +132,7 @@ namespace Route.Talaat.APIs
 
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
