@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Route.Talabat.Core.Application.Abstraction.Services.Auth;
+using Route.Talabat.Core.Application.Services.Auth;
 using Route.Talabat.Core.Domain.Entities.Identity;
 using Route.Talabat.Infrastructure.Persistence._Identity;
 using System.Text;
@@ -41,10 +42,10 @@ namespace Route.Talabat.APIs.Extensions
 
             services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
-            services.AddAuthentication(authOptionas =>
+            services.AddAuthentication(authOptions =>
             {
-                authOptionas.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                authOptionas.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(options =>
                 {
@@ -61,6 +62,12 @@ namespace Route.Talabat.APIs.Extensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
+            services.AddScoped(typeof(Func<IAuthService>), (ServiceProvider) =>
+            {
+                return () =>  ServiceProvider.GetRequiredService<IAuthService>();
+            });
 
             return services;
         }

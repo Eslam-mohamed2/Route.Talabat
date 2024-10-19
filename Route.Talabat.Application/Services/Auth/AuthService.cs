@@ -5,20 +5,14 @@ using Route.Talabat.Core.Application.Abstraction.Models.Auth;
 using Route.Talabat.Core.Application.Abstraction.Services.Auth;
 using Route.Talabat.Core.Application.Exceptions;
 using Route.Talabat.Core.Domain.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Application.Services.Auth
 {
-    internal class AuthService(IAuthService authService,UserManager<ApplicationUser> _userManger , SignInManager<ApplicationUser> signInManger ,IOptions<JwtSettings> JwtSettings) : IAuthService
+    public class AuthService(UserManager<ApplicationUser> _userManger , SignInManager<ApplicationUser> signInManger ,IOptions<JwtSettings> JwtSettings) : IAuthService
     {
-
         public readonly JwtSettings _JwtSettings = JwtSettings.Value;
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
@@ -27,7 +21,7 @@ namespace Route.Talabat.Core.Application.Services.Auth
 
             var result = await signInManger.CheckPasswordSignInAsync(user ,model.Password,lockoutOnFailure: true );
 
-            if (!result.Succeeded) throw new BadRequestException("Invalid Login");
+            if (!result.Succeeded) throw new UnAuthorizedException("Invalid Login");
 
             var response = new UserDto()
             {

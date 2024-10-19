@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Route.Talabat.Core.Domain.Contracts.Infrastructure;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Route.Talabat.Infrastructure
                 var ConnectionMultiplexerObj = ConnectionMultiplexer.Connect(connectionString!);
                 return ConnectionMultiplexerObj;
             });
-
+            services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository.BasketRepository));
             return services;
         }
     }
