@@ -8,6 +8,10 @@ using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.APIs.Middlewares;
 using Route.Talabat.Infrastructure;
 using System.Diagnostics;
+using Route.Talabat.Core.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Route.Talabat.Infrastructure.Persistence._Identity;
+using Route.Talabat.Core.Application.Abstraction.Services.Auth;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -80,13 +84,38 @@ namespace Route.Talaat.APIs
 
             webApplicationBuilder.Services.AddApplicationServices();
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddIdentity<ApplicationUser , IdentityRole>((iIdentityOptions) =>
+            {
+                iIdentityOptions.SignIn.RequireConfirmedAccount = true;
+                iIdentityOptions.SignIn.RequireConfirmedEmail = true;
+                iIdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+
+                //iIdentityOptions.Password.RequireNonAlphanumeric = true;
+                //iIdentityOptions.Password.RequiredUniqueChars = 2;
+                //iIdentityOptions.Password.RequiredLength = 6;
+                //iIdentityOptions.Password.RequireDigit = true;
+                //iIdentityOptions.Password.RequireLowercase = true;
+                //iIdentityOptions.Password.RequireUppercase = true;
+
+                iIdentityOptions.User.RequireUniqueEmail = true;
+
+                iIdentityOptions.Lockout.AllowedForNewUsers = true;
+                iIdentityOptions.Lockout.MaxFailedAccessAttempts= 5;
+                iIdentityOptions.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromHours(12);
+
+            })
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            webApplicationBuilder.Services.Configure<JwtSettings>(webApplicationBuilder.Configuration.GetSection("JwtSettings"));
+
             #endregion
 
             var app = webApplicationBuilder.Build();
 
             #region Databases Initialization
 
-            await app.InitializerStoreContextAsync();
+            await app.InitializeDbAsync();
             
             #endregion
 
@@ -103,6 +132,7 @@ namespace Route.Talaat.APIs
 
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

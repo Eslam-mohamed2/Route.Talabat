@@ -22,7 +22,7 @@ namespace Route.Talabat.APIs.Controllers.Common
                 var response = new ApiResponse((int)HttpStatusCode.NotFound, $"The Requested End Point: {Request.Path} Is Not Found");
                 return NotFound(Response);
             }
-            return StatusCode(Code);
+            return StatusCode(Code,new ApiResponse(Code));
         }
     }
 }

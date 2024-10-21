@@ -4,13 +4,13 @@ using Route.Talaat.Core.Domain.Entities.Products;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data
 {
-    public class StoreContext : DbContext
+    public class StoreDbContext : DbContext
     {
         public DbSet<Product> products { get; set; }
         public DbSet<ProductBrand> brands { get; set; }
         public DbSet<ProductCategory> categories { get; set; }
 
-        public StoreContext(DbContextOptions<StoreContext> options):base(options)
+        public StoreDbContext(DbContextOptions<StoreDbContext> options):base(options)
         {
             
         }

@@ -1,15 +1,17 @@
-﻿using Route.Talabat.Core.Domain.Contracts.Persistence;
+﻿using Route.Talabat.Core.Domain.Contracts.Persistence.DbInitializer;
 
 namespace Route.Talaat.APIs.Extensions
 {
     public static class InitializerExtensions
     {
-        public static async Task<WebApplication> InitializerStoreContextAsync(this WebApplication app)
+        public static async Task<WebApplication> InitializeDbAsync(this WebApplication app)
         {
             using var Scoope = app.Services.CreateAsyncScope();
             var Services = Scoope.ServiceProvider;
 
-            var storeContextInitializer = Services.GetRequiredService<IStoreContextInitializer>();
+            var storeDbInitializer = Services.GetRequiredService<IStoreIdentityDbInitializer>();
+            var StoreIdentityDbInitializer = Services.GetRequiredService<IStoreIdentityDbInitializer>();
+
             // ASking the Runtime Env for an Object from "StoreContext" Service Explicitly.
 
 
@@ -18,8 +20,11 @@ namespace Route.Talaat.APIs.Extensions
             //var logger = Services.GetRequiredService<Logger<Program>>();
             try
             {
-                await storeContextInitializer.InitializeAsync();
-                await storeContextInitializer.SeedAsync();
+                await storeDbInitializer.InitializeAsync();
+                await storeDbInitializer.SeedAsync();
+
+                await StoreIdentityDbInitializer.InitializeAsync();
+                await StoreIdentityDbInitializer.SeedAsync();
             }
             catch (Exception ex)
             {
@@ -29,5 +34,6 @@ namespace Route.Talaat.APIs.Extensions
 
             return app;
         }
+ 
     }
 }

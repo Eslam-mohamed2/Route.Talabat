@@ -1,6 +1,7 @@
 ﻿using Castle.Components.DictionaryAdapter.Xml;
 using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.Core.Application.Exceptions;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;
 
@@ -67,6 +68,15 @@ namespace Route.Talabat.APIs.Middlewares
                     httpContext.Response.ContentType = "application/json";
 
                     response = new ApiResponse(400, ex.Message);
+                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
+                    break;
+                
+                
+                case UnAuthorizedException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    httpContext.Response.ContentType = "application/json";
+
+                    response = new ApiResponse(500, ex.Message);
                     await httpContext.Response.WriteAsJsonAsync(response.ToString());
                     break;
 

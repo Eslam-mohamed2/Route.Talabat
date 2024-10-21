@@ -8,7 +8,7 @@ using Route.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository;
 
 namespace Route.Talaat.Infrastructure.Persistence.Repositories
 {
-    internal class GenericRepository<TEntity, TKey>(StoreContext _dbContext) : IGenericRepository<TEntity, TKey>
+    internal class GenericRepository<TEntity, TKey>(StoreDbContext _dbContext) : IGenericRepository<TEntity, TKey>
         where TEntity : BaseAuditableEntity<TKey>
         where TKey : IEquatable<TKey>
     {

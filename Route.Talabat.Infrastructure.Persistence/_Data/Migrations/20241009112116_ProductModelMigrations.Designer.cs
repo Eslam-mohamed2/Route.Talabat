@@ -11,7 +11,7 @@ using Route.Talaat.Infrastructure.Persistence.Data;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(StoreDbContext))]
     [Migration("20241009112116_ProductModelMigrations")]
     partial class ProductModelMigrations
     {
