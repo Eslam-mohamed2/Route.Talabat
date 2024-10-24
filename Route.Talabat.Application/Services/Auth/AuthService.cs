@@ -19,7 +19,11 @@ namespace Route.Talabat.Core.Application.Services.Auth
             var User = await userManager.FindByEmailAsync(model.Email);
             if (User is null) throw new UnAuthorizedException("Invalid Login");
             var Result = await signInManager.CheckPasswordSignInAsync(User, model.Password, lockoutOnFailure: true);
+
+            if (!Result.IsNotAllowed) throw new UnAuthorizedException("Account not Confirmed yet");
+            if (!Result.IsLockedOut) throw new UnAuthorizedException("Account Is locked");
             if (!Result.Succeeded) throw new UnAuthorizedException("Invalid Login");
+
             var Response = new UserDto()
             {
                 Id = User.Id,
