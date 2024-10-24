@@ -63,26 +63,32 @@ namespace Route.Talabat.Core.Application.Services.Auth
         private async Task<string> GenerateTokenAsync(ApplicationUser user, JwtSettings _jwtSettings)
         {
             var UserClaims = await userManager.GetClaimsAsync(user);
-            var PrivateClaims = new List<Claim>()
+            var rolesAsClaims = new List<Claim>();
+            var UserRoles = await userManager.GetRolesAsync(user);
+            foreach (var Role in UserRoles)
+            {
+                rolesAsClaims.Add(new Claim(ClaimTypes.Role, Role.ToString()));
+            }
+
+            var Claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.PrimarySid, user.Id),
                 new Claim(ClaimTypes.Email, user.Email!),
                 new Claim(ClaimTypes.GivenName, user.DisplayName)
 
-            }.Union(UserClaims).ToList();
-            var UserRoles = await userManager.GetRolesAsync(user);
-            foreach (var Role in UserRoles)
-            {
-                PrivateClaims.Add(new Claim(ClaimTypes.Role, Role.ToString()));
-            }
-            var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            }.Union(UserClaims)
+            .Union(rolesAsClaims)
+            .ToList();
+
+            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             var TokenObj = new JwtSecurityToken(
                 audience: _jwtSettings.Audience,
                 issuer: _jwtSettings.Issuer,
                 expires: DateTime.UtcNow.AddMinutes(double.Parse(_jwtSettings.DurationInMinutes)),
-                claims: PrivateClaims,
-                signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.HmacSha256));
+                claims: Claims,
+                signingCredentials: signingCredentials);
 
             return new JwtSecurityTokenHandler().WriteToken(TokenObj);
         }
