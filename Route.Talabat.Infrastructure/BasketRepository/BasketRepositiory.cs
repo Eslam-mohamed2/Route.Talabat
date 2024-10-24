@@ -29,17 +29,14 @@ namespace Route.Talabat.Infrastructure.BasketRepository
         public async Task<CustomerBasket?> GetAsync(string id)
         {
             var basket = await _database.StringGetAsync(id);
-            return basket.IsNullOrEmpty? null:JsonSerializer.Deserialize<CustomerBasket>(basket);
+            return basket.IsNullOrEmpty ? null : JsonSerializer.Deserialize<CustomerBasket>(basket!);
         }
 
         public async Task<CustomerBasket?> UpdateAsync(CustomerBasket basket, TimeSpan TimeToLive)
         {
             var value = JsonSerializer.Serialize(basket);
-
             var updated = await _database.StringSetAsync(basket.Id,value,TimeToLive);
-
             if (updated) return basket;
-
             return null;
         }
     }

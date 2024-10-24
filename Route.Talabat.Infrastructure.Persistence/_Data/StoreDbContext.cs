@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Route.Talaat.Core.Domain.Common;
 using Route.Talaat.Core.Domain.Entities.Products;
+using Route.Talabat.Infrastructure.Persistence._Common;
+using System.Reflection;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data
 {
@@ -18,7 +20,8 @@ namespace Route.Talaat.Infrastructure.Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+            type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

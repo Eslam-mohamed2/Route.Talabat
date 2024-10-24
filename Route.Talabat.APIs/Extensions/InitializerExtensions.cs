@@ -6,18 +6,13 @@ namespace Route.Talaat.APIs.Extensions
     {
         public static async Task<WebApplication> InitializeDbAsync(this WebApplication app)
         {
-            using var Scoope = app.Services.CreateAsyncScope();
-            var Services = Scoope.ServiceProvider;
+            using var Scope = app.Services.CreateAsyncScope();
 
-            var storeDbInitializer = Services.GetRequiredService<IStoreIdentityDbInitializer>();
-            var StoreIdentityDbInitializer = Services.GetRequiredService<IStoreIdentityDbInitializer>();
-
-            // ASking the Runtime Env for an Object from "StoreContext" Service Explicitly.
-
-
+            var Services = Scope.ServiceProvider;
+            var storeDbInitializer = Services.GetRequiredService<IStoreDbInitializer>();
+            var StoreIdentityDbInitializer = Services.GetRequiredService<IStoreIdentityInitializer>();
             var loggerFactory = Services.GetRequiredService<ILoggerFactory>();
 
-            //var logger = Services.GetRequiredService<Logger<Program>>();
             try
             {
                 await storeDbInitializer.InitializeAsync();

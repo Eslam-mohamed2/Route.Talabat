@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Infrastructure.Persistence._Common
 {
-    internal abstract class DbInitializer(DbContext _dbContext) : IDbInitializer
+    public abstract class DbInitializer(DbContext _dbContext) : IDbInitializer
     {
         public virtual async Task InitializeAsync()
         {

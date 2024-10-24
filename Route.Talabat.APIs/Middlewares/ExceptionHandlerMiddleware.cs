@@ -1,9 +1,7 @@
-﻿using Castle.Components.DictionaryAdapter.Xml;
+﻿using Azure;
 using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.Core.Application.Exceptions;
-using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Text.Json;
 
 namespace Route.Talabat.APIs.Middlewares
 {
@@ -34,8 +32,6 @@ namespace Route.Talabat.APIs.Middlewares
                 if (_env.IsDevelopment())
                 {
                     _logger.LogError(ex, ex.Message);
-                    //response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString());
-
                 }
                 else
                 {
@@ -58,50 +54,37 @@ namespace Route.Talabat.APIs.Middlewares
                 case NotFoundException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     httpContext.Response.ContentType = "application/json";
+                    response = new ApiResponse((int)HttpStatusCode.NotFound, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
 
-                    response = new ApiResponse(404, ex.Message);
-                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
                     break;
-                
+
                 case BadRequestException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     httpContext.Response.ContentType = "application/json";
-
-                    response = new ApiResponse(400, ex.Message);
-                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
+                    response = new ApiResponse((int)HttpStatusCode.BadRequest, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
-                
-                
+
                 case UnAuthorizedException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     httpContext.Response.ContentType = "application/json";
-
-                    response = new ApiResponse(500, ex.Message);
-                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
+                    response = new ApiResponse((int)HttpStatusCode.Unauthorized, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 default:
-                    response = _env.IsDevelopment()?
-                        new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message , ex.StackTrace?.ToString()) :
-                        response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, null, null);
+                    //Development Mode
+                    response = _env.IsDevelopment()
+                        ? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
+                        : new ApiExceptionResponse(((int)HttpStatusCode.InternalServerError), ex.Message, ex.StackTrace?.ToString());
 
-                    if (_env.IsDevelopment())
-                    {
-                        _logger.LogError(ex, ex.Message);
-                        response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString());
-
-                    }
-                    else
-                    {
-                        response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, null, null);
-                    }
-                    //Production Mode
                     httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     httpContext.Response.ContentType = "application/json";
-                    await httpContext.Response.WriteAsJsonAsync(response.ToString());
+
+                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
             }
-
             return response;
         }
     }

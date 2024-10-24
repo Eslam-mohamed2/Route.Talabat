@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Route.Talaat.Core.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Route.Talabat.Infrastructure.Persistence._Common;
+using Route.Talabat.Infrastructure.Persistence._Identity;
 
 namespace Route.Talaat.Infrastructure.Persistence.Data.Configurations.Base
 {
+    [DbContextType(typeof(StoreIdentityDbContext))]
     internal class BaseEntityConfigurations<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseAuditableEntity<TKey> where TKey : IEquatable<TKey>
     {

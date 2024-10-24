@@ -1,17 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Route.Talaat.Infrastructure.Persistence;
+using Route.Talaat.Infrastructure.Persistence.Data;
 using Route.Talabat.Core.Domain.Entities.Identity;
-using Route.Talabat.Infrastructure.Persistence._Identity.Configurations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Route.Talabat.Infrastructure.Persistence._Common;
+using System.Reflection;
 
 namespace Route.Talabat.Infrastructure.Persistence._Identity
 {
-    public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
         public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> Options) :base(Options)
         {
@@ -21,9 +19,8 @@ namespace Route.Talabat.Infrastructure.Persistence._Identity
         {
             base.OnModelCreating(builder);
 
-            builder.ApplyConfiguration(new ApplicationUserConfigurations());
-            builder.ApplyConfiguration(new AddressConfigurations() );
-            
+            builder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+            type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreIdentityDbContext));
         }
 
     }

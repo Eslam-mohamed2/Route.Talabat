@@ -1,17 +1,19 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Route.Talaat.APIs.Extensions;
 using Route.Talaat.APIs.Services;
+using Route.Talaat.Core.Application;
 using Route.Talaat.Core.Application.Abstraction;
 using Route.Talaat.Infrastructure.Persistence;
-using Route.Talaat.Core.Application;
-using Microsoft.AspNetCore.Mvc;
 using Route.Talabat.APIs.Controllers.Errors;
 using Route.Talabat.APIs.Middlewares;
-using Route.Talabat.Infrastructure;
-using System.Diagnostics;
-using Route.Talabat.Core.Domain.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
-using Route.Talabat.Infrastructure.Persistence._Identity;
 using Route.Talabat.Core.Application.Abstraction.Services.Auth;
+using Route.Talabat.Core.Domain.Entities.Identity;
+using Route.Talabat.Infrastructure;
+using Route.Talabat.Infrastructure.Persistence._Identity;
+using System.Text;
 namespace Route.Talaat.APIs
 {
     public class Program
@@ -65,18 +67,10 @@ namespace Route.Talaat.APIs
             });
 
             webApplicationBuilder.Services.AddControllers(); // Register the Required Services
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
 
             webApplicationBuilder.Services.AddSwaggerGen();
-
-            //webApplicationBuilder.Services.AddDbContext<StoreContext>((Option) =>
-            //{
-            //    Option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("StoreContext"));
-            //});
-
-            //DependencyInJection.AddPersistence(webApplicationBuilder.Services, webApplicationBuilder.Configuration);
-
+       
             webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddHttpContextAccessor();
@@ -90,22 +84,34 @@ namespace Route.Talaat.APIs
                 iIdentityOptions.SignIn.RequireConfirmedAccount = true;
                 iIdentityOptions.SignIn.RequireConfirmedEmail = true;
                 iIdentityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-                //iIdentityOptions.Password.RequireNonAlphanumeric = true;
-                //iIdentityOptions.Password.RequiredUniqueChars = 2;
-                //iIdentityOptions.Password.RequiredLength = 6;
-                //iIdentityOptions.Password.RequireDigit = true;
-                //iIdentityOptions.Password.RequireLowercase = true;
-                //iIdentityOptions.Password.RequireUppercase = true;
-
                 iIdentityOptions.User.RequireUniqueEmail = true;
-
                 iIdentityOptions.Lockout.AllowedForNewUsers = true;
                 iIdentityOptions.Lockout.MaxFailedAccessAttempts= 5;
                 iIdentityOptions.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromHours(12);
 
             })
                 .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            webApplicationBuilder.Services.AddAuthentication(authOptionas =>
+            {
+                authOptionas.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptionas.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                 .AddJwtBearer(options =>
+                 {
+                     options.TokenValidationParameters = new TokenValidationParameters()
+                     {
+                         ValidateAudience = true,
+                         ValidateIssuer = true,
+                         ValidateLifetime = true,
+                         ValidateIssuerSigningKey = true,
+
+                         ValidAudience = webApplicationBuilder.Configuration["JwtSettings:Audience"],
+                         ValidIssuer = webApplicationBuilder.Configuration["JwtSettings:Issuer"],
+                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(webApplicationBuilder.Configuration["JwtSettings:Key"]!)),
+                         ClockSkew = TimeSpan.Zero
+                     };
+                 });
 
             webApplicationBuilder.Services.Configure<JwtSettings>(webApplicationBuilder.Configuration.GetSection("JwtSettings"));
 

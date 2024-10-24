@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Route.Talabat.Core.Application.Abstraction.Models.Basket;
 using Route.Talabat.Core.Application.Abstraction.Services.Basket;
+using Route.Talabat.Core.Application.Exceptions;
 using Route.Talabat.Core.Domain.Contracts.Infrastructure;
 using Route.Talabat.Core.Domain.Entities.Basket;
 using System;
@@ -17,27 +18,26 @@ namespace Route.Talabat.Core.Application.Services.Basket
         public async Task DeleteCustomerBasketAsync(string basketId)
         {
             var deleted = await basketRepository.DeleteAsync(basketId);
-
-            if (!deleted) throw new Exception();
+            if (!deleted) 
+                throw new BadRequestException("Unable To Delete This Basket");
         }
 
         public async Task<CustomerBasketDto> GetCustomerBasketAsync(string BasketId)
         {
             var basket = await basketRepository.GetAsync(BasketId);
-
-            if(basket is null) throw new Exception();
-
+             if(basket is null)
+                throw new NotFoundException(nameof(CustomerBasket), BasketId);
             return mapper.Map<CustomerBasketDto>(basket);
         }
 
         public async Task<CustomerBasketDto> UpdateCustomerBasketAsync(CustomerBasketDto BasketDto)
         {
             var Basket = mapper.Map<CustomerBasket>(BasketDto);
-
-            var timeToLive = TimeSpan.FromDays(double.Parse(configuration.GetSection("configuration")["TimeToLiveInDays"]!));
-
+            var timeToLive = TimeSpan.FromDays(double.Parse(configuration.GetSection("RedisSettings")["TimeToLiveInDayes"]!));
             var updatedBasket = await basketRepository.UpdateAsync(Basket, timeToLive);
-            if (updatedBasket is null) throw new Exception();
+
+            if (updatedBasket is null)
+                throw new BadRequestException("Can't Update, There Is A Problem With Your Basket.");
 
             return BasketDto;
         }

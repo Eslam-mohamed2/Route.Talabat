@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Route.Talabat.Domain\Route.Talabat.Core.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Common\" />
-  </ItemGroup>
-
 </Project>

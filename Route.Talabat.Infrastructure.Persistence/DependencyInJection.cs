@@ -19,13 +19,13 @@ namespace Route.Talaat.Infrastructure.Persistence
             #region Store DbContext
             services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
                 {
-                    OptionsBuilder.UseLazyLoadingProxies()
+                    OptionsBuilder
+                    //.UseLazyLoadingProxies()
                     .UseSqlServer(Configuration.GetConnectionString("StoreContext"));
                 });
 
-            services.AddScoped<IStoreIdentityDbInitializer, StoreDbInitializer>();
+            services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
-            //services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
 
             #endregion
 
@@ -33,16 +33,15 @@ namespace Route.Talaat.Infrastructure.Persistence
 
             services.AddDbContext<StoreIdentityDbContext>((OptionsBuilder) =>
               {
-                  OptionsBuilder.UseLazyLoadingProxies()
-                  .UseSqlServer(Configuration.GetConnectionString("IdentityContext"));
+                  OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("IdentityContext"));
               });
 
-
-            services.AddIdentityCore<ApplicationUser>();
-
+            services.AddScoped(typeof(IStoreIdentityInitializer), typeof(StoreIdentityInitializer));
 
             #endregion
+
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOFWork));
+
             return services;
 
         }

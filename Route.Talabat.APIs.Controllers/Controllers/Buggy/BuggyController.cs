@@ -14,47 +14,45 @@ namespace Route.Talabat.APIs.Controllers.Controllers.Buggy
     public class BuggyController : BaseApiController
     {
 
-        [HttpGet("notFound")] // Get: /api/buggy/notfound
+        [HttpGet("NotFound")] //GET: /api/Buggy/NotFound
         public IActionResult GetNotFoundError()
         {
-            //throw new NotFoundException();
-            return NotFound(new ApiResponse(404)); // 404
-        }
-        [HttpGet("servererror")] // Get: /api/buggy/servererror
-        public IActionResult GetServerError() 
-        {
-            throw new Exception(); //500
+            return NotFound(new ApiResponse(404)); //404
         }
 
-        [HttpGet("badrequest")] // Get: /api/buggy/badrequest/one
+        [HttpGet("ServerError")] //GET: /api/Buggy/ServerError
+        public IActionResult GetServerError()
+        {
+            throw new Exception();
+        }
+
+        [HttpGet("BadRequest")] //GET: /api/Buggy/BadRequest
         public IActionResult GetBadRequest()
         {
-            return BadRequest(new ApiResponse(400));
+            return BadRequest(new ApiResponse(400)); //400
         }
 
-        [HttpGet("badrequest/{id}")] // Get: /api/buggy/badrequest
+        [HttpGet("BadRequest/{id}")] //GET: /api/Buggy/BadRequest/five{string}
         public IActionResult GetValidationError(int id) // => 400
-        { 
-            //if(!ModelState.IsValid)
-            
-            return Ok();  //400
-        }
-       
-        [HttpGet("unauthorized")] // Get: /api/buggy/unauthorized
-        public IActionResult GetUnauthorizedError() 
         {
-            return Unauthorized(new ApiResponse(401));
+            return Ok();
         }
-        
-        [HttpGet("forbidden")] // Get: /api/buggy/forbidden
-        public IActionResult GEtForbiddenRequest()
+
+        [HttpGet("UnAuthorized")] //GET: /api/Buggy/UnAuthorized
+        public IActionResult GetUnAuthorized()
         {
-            return Forbid(); // 401
+            return Unauthorized(new ApiResponse(401)); //401
+        }
+
+        [HttpGet("Forbidden")] //GET: /api/Buggy/Forbidden
+        public IActionResult GetForbidden()
+        {
+            return Forbid(); //401
         }
 
         [Authorize]
-        [HttpGet("authorized")] // Get: api/buggy/authorized
-        public IActionResult GetAuthorizedRequest()
+        [HttpGet("Authorize")] //GET: /api/Buggy/Authorize
+        public IActionResult GetAuthorizeRequest()
         {
             return Ok();
         }

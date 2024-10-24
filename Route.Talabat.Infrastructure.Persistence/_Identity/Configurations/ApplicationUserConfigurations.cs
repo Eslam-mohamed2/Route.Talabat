@@ -15,8 +15,8 @@ namespace Route.Talabat.Infrastructure.Persistence._Identity.Configurations
         {
             builder.Property(U => U.DisplayName)
                 .IsRequired()
-                .HasMaxLength(100)
-                .HasColumnType("Varchar(100)");
+                .HasColumnType("Varchar)")
+                .HasMaxLength(100);
 
             builder.HasOne(U => U.Address)
                 .WithOne(A => A.User)

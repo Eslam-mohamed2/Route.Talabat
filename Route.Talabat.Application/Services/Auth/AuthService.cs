@@ -11,81 +11,76 @@ using System.Text;
 
 namespace Route.Talabat.Core.Application.Services.Auth
 {
-    public class AuthService(UserManager<ApplicationUser> _userManger , SignInManager<ApplicationUser> signInManger ,IOptions<JwtSettings> JwtSettings) : IAuthService
+    public class AuthService(IOptions<JwtSettings> jwtSettings, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
-        public readonly JwtSettings _JwtSettings = JwtSettings.Value;
+        private readonly JwtSettings _jwtSettings = jwtSettings.Value;
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
-            var user = await _userManger.FindByEmailAsync(model.Email);
-            if (user is null) throw new BadRequestException("Invalid Login");
-
-            var result = await signInManger.CheckPasswordSignInAsync(user ,model.Password,lockoutOnFailure: true );
-
-            if (!result.Succeeded) throw new UnAuthorizedException("Invalid Login");
-
-            var response = new UserDto()
+            var User = await userManager.FindByEmailAsync(model.Email);
+            if (User is null) throw new UnAuthorizedException("Invalid Login");
+            var Result = await signInManager.CheckPasswordSignInAsync(User, model.Password, lockoutOnFailure: true);
+            if (!Result.Succeeded) throw new UnAuthorizedException("Invalid Login");
+            var Response = new UserDto()
             {
-                Id = user.Id,
-                DisplayName = user.DisplayName,
-                Email = user.Email,
-                Token = await GenerateTokenAsync(user),
+                Id = User.Id,
+                DisplayName = User.DisplayName,
+                Email = User.Email!,
+                Token = await GenerateTokenAsync(User, Get_jwtSettings())
             };
-
-            return response;
+            return Response;
         }
-        
+
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
-            var user = new ApplicationUser()
+            var User = new ApplicationUser()
             {
                 DisplayName = model.DisplayName,
                 Email = model.Email,
                 UserName = model.UserName,
                 PhoneNumber = model.PhoneNumber,
             };
-
-            var result = await _userManger.CreateAsync(user,model.Password);
-
-            if (!result.Succeeded) throw new ValidationException() { Errors = result.Errors.Select(E => E.Description) };
-
-
-            var response = new UserDto()
+            var Result = await userManager.CreateAsync(User, model.Password);
+            if (!Result.Succeeded) throw new ValidationException() { Errors = Result.Errors.Select(E => E.Description) };
+            var Response = new UserDto()
             {
-                Id = user.Id,
-                DisplayName = user.DisplayName,
-                Email = user.Email,
-                Token = "This Will be JWT Token"
+                Id = User.Id,
+                DisplayName = User.DisplayName,
+                Email = User.Email!,
+                Token = await GenerateTokenAsync(User, Get_jwtSettings())
             };
-
-            return response;
+            return Response;
         }
 
-        private async Task<string> GenerateTokenAsync(ApplicationUser user)
+        private JwtSettings Get_jwtSettings()
         {
-            var privateClaims = new List<Claim>()
+            return _jwtSettings;
+        }
+
+        private async Task<string> GenerateTokenAsync(ApplicationUser user, JwtSettings _jwtSettings)
+        {
+            var UserClaims = await userManager.GetClaimsAsync(user);
+            var PrivateClaims = new List<Claim>()
             {
-                new Claim(ClaimTypes.PrimarySid,user.Id),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.GivenName,user.DisplayName)
-            }
-            .Union(await _userManger.GetClaimsAsync(user)).ToList();
+                new Claim(ClaimTypes.PrimarySid, user.Id),
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.GivenName, user.DisplayName)
 
-            foreach (var role in await _userManger.GetRolesAsync(user))
+            }.Union(UserClaims).ToList();
+            var UserRoles = await userManager.GetRolesAsync(user);
+            foreach (var Role in UserRoles)
             {
-             privateClaims.Add(new Claim(ClaimTypes.Role,role.ToString()));   
+                PrivateClaims.Add(new Claim(ClaimTypes.Role, Role.ToString()));
             }
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JwtSettings.Key));
+            var AuthKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
-            var tokenObj = new JwtSecurityToken(
+            var TokenObj = new JwtSecurityToken(
+                audience: _jwtSettings.Audience,
+                issuer: _jwtSettings.Issuer,
+                expires: DateTime.UtcNow.AddMinutes(double.Parse(_jwtSettings.DurationInMinutes)),
+                claims: PrivateClaims,
+                signingCredentials: new SigningCredentials(AuthKey, SecurityAlgorithms.HmacSha256));
 
-                audience: _JwtSettings.Audience,
-                issuer: _JwtSettings.Issuer,
-                expires: DateTime.UtcNow.AddMinutes(_JwtSettings.DurationInMinutes),
-                claims: privateClaims,
-                signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return new JwtSecurityTokenHandler().WriteToken(tokenObj);
+            return new JwtSecurityTokenHandler().WriteToken(TokenObj);
         }
     }
 }

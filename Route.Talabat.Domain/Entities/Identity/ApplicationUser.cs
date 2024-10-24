@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Domain.Entities.Identity
 {
-        public class ApplicationUser : IdentityUser<string>  // There are 2 overlaods non Generic Option -> by Default the Id will be String 
+        public class ApplicationUser : IdentityUser  // There are 2 overlaods non Generic Option -> by Default the Id will be String 
         {
 
             public required string DisplayName { get; set; }

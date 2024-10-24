@@ -21,33 +21,33 @@ namespace Route.Talaat.Core.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            //services.AddAutoMapper(Mapper => Mapper.AddProfile(new MappingProfile()));
             services.AddAutoMapper(typeof(MappingProfile));
 
+            services.AddScoped<IServiceManger, ServiceManger>(); 
+
             services.AddScoped(typeof(IProductService), typeof (ProductService));
-
-            services.AddScoped<IServiceManger, ServiceManger>();
-
-            //services.AddScoped(typeof(IBasketService), typeof(BasketService));
-            //services.AddScoped(typeof(Func<IBasketService>),typeof(Func<BasketService>))
 
             services.AddScoped(typeof(Func<IBasketService>), (servicesProvider) =>
             {
                 var configuration = servicesProvider.GetRequiredService<IConfiguration>();
+
                 var mapper = servicesProvider.GetRequiredService<IMapper>();
+
                 var basketRepository = servicesProvider.GetRequiredService<IBasketRepository>();
+
                 return () => new BasketService(basketRepository, mapper, configuration);
 
-                //return () => servicesProvider.GetRequiredService<IBasketService>();  //This Eay Throw Exception That The IBasketService Wasn't Register
             });
 
             services.AddScoped(typeof(Func<IAuthService>), serviceProvider =>
             {
-                //var auth = serviceProvider.GetRequiredService<IAuthService>();
                 var jwtSetting = serviceProvider.GetRequiredService<IOptions<JwtSettings>>();
+
                 var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
                 var SignInManager = serviceProvider.GetRequiredService<SignInManager<ApplicationUser>>();
-                return () => new AuthService(userManager, SignInManager, jwtSetting);
+                return () => new AuthService(jwtSetting, userManager, SignInManager);
+
             });
 
 

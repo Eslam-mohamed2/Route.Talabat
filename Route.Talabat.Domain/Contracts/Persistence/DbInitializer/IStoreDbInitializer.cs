@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Route.Talabat.Core.Domain.Contracts.Persistence.DbInitializer
 {
-    public interface IStoreIdentityDbInitializer : IDbInitializer { }
+    public interface IStoreDbInitializer : IDbInitializer { }
 }
