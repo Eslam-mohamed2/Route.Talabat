@@ -9,8 +9,11 @@ namespace Route.Talaat.APIs.Extensions
             using var Scope = app.Services.CreateAsyncScope();
 
             var Services = Scope.ServiceProvider;
+
             var storeDbInitializer = Services.GetRequiredService<IStoreDbInitializer>();
+
             var StoreIdentityDbInitializer = Services.GetRequiredService<IStoreIdentityInitializer>();
+
             var loggerFactory = Services.GetRequiredService<ILoggerFactory>();
 
             try
