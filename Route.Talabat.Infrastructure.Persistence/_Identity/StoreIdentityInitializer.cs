@@ -9,15 +9,18 @@ namespace Route.Talabat.Infrastructure.Persistence._Identity
     {
         public override async Task SeedAsync()
         {
-            var User = new ApplicationUser()
+            if (!_userManger.Users.Any())
             {
-                DisplayName = "Eslam Mohamed",
-                UserName = "Eslam.mohamed",
-                Email = "eslammohamed@gmail.com",
-                PhoneNumber = "01234567890",
-            };
+                var User = new ApplicationUser()
+                {
+                    DisplayName = "Eslam Mohamed",
+                    UserName = "Eslam.mohamed",
+                    Email = "eslammohamed@gmail.com",
+                    PhoneNumber = "01234567890",
+                };
 
-            await _userManger.CreateAsync(User,"Eslam@2003");
+                await _userManger.CreateAsync(User, "Eslam@2003"); 
+            }
         }
     }
 }
