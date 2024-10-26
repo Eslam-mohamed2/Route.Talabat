@@ -38,11 +38,11 @@ namespace Route.Talaat.APIs
                     options.SuppressModelStateInvalidFilter = false;
                     options.InvalidModelStateResponseFactory = (ActionContext) =>
                     {
-                        var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
+                        var errors = ActionContext.ModelState.Where(P => P.Value!.Errors.Count() > 0)
                         .Select(P => new ApiValidationErrorResponse.ValidationError() 
                         {
                             Field = P.Key,
-                            Errors = P.Value.Errors.Select(E => E.ErrorMessage)
+                            Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
                         });
 
                         return new BadRequestObjectResult(new ApiValidationErrorResponse()
@@ -58,25 +58,24 @@ namespace Route.Talaat.APIs
             options.SuppressModelStateInvalidFilter = false;
                 options.InvalidModelStateResponseFactory = (ActionContext) =>
                 {
-                    var errors = ActionContext.ModelState.Where(P => P.Value.Errors.Count() > 0).ToList()
-                                 .SelectMany(P => P.Value.Errors)
+                    var errors = ActionContext.ModelState.Where(P => P.Value!.Errors.Count() > 0).ToList()
+                                 .SelectMany(P => P.Value!.Errors)
                                  .Select(E => E.ErrorMessage);
-
                     return new BadRequestObjectResult(new ApiValidationErrorResponse() { Errors = errors });
                 };
             });
 
             webApplicationBuilder.Services.AddControllers(); // Register the Required Services
-            webApplicationBuilder.Services.AddEndpointsApiExplorer();
 
+            webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
-       
-            webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddHttpContextAccessor();
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService) , typeof(LoggedInUserService));
+       
 
             webApplicationBuilder.Services.AddApplicationServices();
+            webApplicationBuilder.Services.AddPersistence(webApplicationBuilder.Configuration);
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddIdentity<ApplicationUser , IdentityRole>((iIdentityOptions) =>
@@ -88,9 +87,8 @@ namespace Route.Talaat.APIs
                 iIdentityOptions.Lockout.AllowedForNewUsers = true;
                 iIdentityOptions.Lockout.MaxFailedAccessAttempts= 5;
                 iIdentityOptions.Lockout.DefaultLockoutTimeSpan= TimeSpan.FromHours(12);
-
             })
-                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+            .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
             webApplicationBuilder.Services.AddAuthentication(authOptionas =>
             {
@@ -105,11 +103,10 @@ namespace Route.Talaat.APIs
                          ValidateIssuer = true,
                          ValidateLifetime = true,
                          ValidateIssuerSigningKey = true,
-
+                         ClockSkew = TimeSpan.FromMinutes(0), 
                          ValidAudience = webApplicationBuilder.Configuration["JwtSettings:Audience"],
                          ValidIssuer = webApplicationBuilder.Configuration["JwtSettings:Issuer"],
                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(webApplicationBuilder.Configuration["JwtSettings:Key"]!)),
-                         ClockSkew = TimeSpan.Zero
                      };
                  });
 
@@ -126,6 +123,7 @@ namespace Route.Talaat.APIs
             #endregion
 
             #region Configrue Kestrel Middlewares
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

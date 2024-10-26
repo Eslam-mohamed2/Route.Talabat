@@ -1,0 +1,12 @@
+﻿@model ProductBrandViewModel
+<form method="post" asp-action="Create">
+    <div class="input-group my2 row gap- container">
+        <div class="col-lg-10">
+            <input asp-for="Name" class="form-control" placeholder="Enter Brand Name" />
+        </div>
+        <div class="input-group-append col-lg-2">
+            <button type="submit" class="btn btn-primary"> Add New Brand </button>
+        </div>
+    </div>
+    <span asp-validation-for="Name" class="text-danger"></span>
+</form>

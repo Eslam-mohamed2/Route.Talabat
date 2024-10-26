@@ -18,23 +18,23 @@ namespace Route.Talaat.Infrastructure.Persistence
         {
             #region Store DbContext
             services.AddDbContext<StoreDbContext>((OptionsBuilder) =>
-                {
-                    OptionsBuilder
-                    //.UseLazyLoadingProxies()
-                    .UseSqlServer(Configuration.GetConnectionString("StoreContext"));
-                });
+            {
+                OptionsBuilder
+                //.UseLazyLoadingProxies()
+                .UseSqlServer(Configuration.GetConnectionString("StoreContext"));
+            });
 
             services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
-
+                
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptor));
             #endregion
 
             #region Identity Context
 
             services.AddDbContext<StoreIdentityDbContext>((OptionsBuilder) =>
-              {
-                  OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("IdentityContext"));
-              });
+            {
+                OptionsBuilder.UseSqlServer(Configuration.GetConnectionString("IdentityContext"));
+            });
 
             services.AddScoped(typeof(IStoreIdentityInitializer), typeof(StoreIdentityInitializer));
 

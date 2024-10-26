@@ -29,7 +29,7 @@ namespace Route.Talabat.Core.Application.Services.Auth
                 Id = User.Id,
                 DisplayName = User.DisplayName,
                 Email = User.Email!,
-                Token = await GenerateTokenAsync(User, Get_jwtSettings())
+                Token = await GenerateTokenAsync(User, _jwtSettings)
             };
             return Response;
         }
@@ -50,14 +50,9 @@ namespace Route.Talabat.Core.Application.Services.Auth
                 Id = User.Id,
                 DisplayName = User.DisplayName,
                 Email = User.Email!,
-                Token = await GenerateTokenAsync(User, Get_jwtSettings())
+                Token = await GenerateTokenAsync(User, _jwtSettings)
             };
             return Response;
-        }
-
-        private JwtSettings Get_jwtSettings()
-        {
-            return _jwtSettings;
         }
 
         private async Task<string> GenerateTokenAsync(ApplicationUser user, JwtSettings _jwtSettings)

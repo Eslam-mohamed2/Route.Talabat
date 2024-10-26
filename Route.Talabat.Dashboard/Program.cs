@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Route.Talaat.Infrastructure.Persistence.Data;
+using Route.Talabat.Core.Domain.Contracts.Persistence;
 using Route.Talabat.Core.Domain.Entities.Identity;
+using Route.Talabat.Dashboard.Helpers;
 using Route.Talabat.Infrastructure.Persistence._Identity;
-using StackExchange.Redis;
-
+using Route.Talaat.Infrastructure.Persistence.UnitOfWork;
 namespace Route.Talaat.Dashboard
 {
     public class Program
@@ -13,48 +14,42 @@ namespace Route.Talaat.Dashboard
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            #region Configure
+            #region ConfigureServices
             // Add services to the container.
+
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<StoreDbContext>(Options =>
+
+            builder.Services.AddDbContext<StoreDbContext>(optionsBuilder =>
             {
-                Options.UseSqlServer(builder.Configuration.GetConnectionString("StoreContext"));
+                optionsBuilder
+                .UseSqlServer(builder.Configuration.GetConnectionString("StoreContext"));
             });
 
-            builder.Services.AddDbContext<StoreIdentityDbContext>(Options =>
+            builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOFWork));
+            builder.Services.AddAutoMapper(typeof(MapsProfile));
+
+            builder.Services.AddDbContext<StoreIdentityDbContext>(optionsBuilder =>
             {
-                Options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityContext"));
+                optionsBuilder
+                .UseSqlServer(builder.Configuration.GetConnectionString("IdentityContext"));
             });
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
-                ///identityOptions.SignIn.RequireConfirmedAccount = true;
-                ///identityOptions.SignIn.RequireConfirmedEmail = true;
-                ///identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-                identityOptions.Password.RequireNonAlphanumeric = true;
-                identityOptions.Password.RequiredUniqueChars = 2;
-                identityOptions.Password.RequiredLength = 6;
-                identityOptions.Password.RequireDigit = true;
-                identityOptions.Password.RequireLowercase = true;
-                identityOptions.Password.RequireUppercase = true;
-
                 identityOptions.User.RequireUniqueEmail = true;
-                //identityOptions.User.AllowedUserNameCharacters = "/[a-zA-Z0-9]/";
 
                 identityOptions.Lockout.AllowedForNewUsers = true;
                 identityOptions.Lockout.MaxFailedAccessAttempts = 5;
                 identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
 
-                //identityOptions.Stores
-                //identityOptions.Tokens
-                //identityOptions.ClaimsIdentity
             })
-           .AddEntityFrameworkStores<StoreIdentityDbContext>();
-            
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
             #endregion
+
             var app = builder.Build();
 
+            #region Configure Kestrell Middlewares
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -72,7 +67,8 @@ namespace Route.Talaat.Dashboard
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Login}/{id?}");
+            #endregion
 
             app.Run();
         }

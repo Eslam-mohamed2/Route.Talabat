@@ -9,83 +9,75 @@ namespace Route.Talabat.APIs.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionHandlerMiddleware> _logger;
-        private readonly IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _environment;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next,ILogger<ExceptionHandlerMiddleware> logger,IWebHostEnvironment env) 
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger, IWebHostEnvironment environment)
         {
             _next = next;
             _logger = logger;
-            _env = env;
+            _environment = environment;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try
             {
+                // Process the request
                 await _next(httpContext);
             }
             catch (Exception ex)
             {
-                ApiResponse response;
-
-                #region Logging : TODO
-                if (_env.IsDevelopment())
+                #region Logging
+                if (_environment.IsDevelopment())
                 {
                     _logger.LogError(ex, ex.Message);
                 }
                 else
                 {
-                    //response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, null, null);
-                } 
+                    // Production mode logging (e.g., to a file or database)
+                }
                 #endregion
 
-                response = await HandleExceptionAsync(httpContext, ex);
-
-                //Development mode
-
+                // Handle the exception
+                await HandleExceptionAsync(httpContext, ex);
             }
         }
 
-        private async Task<ApiResponse> HandleExceptionAsync(HttpContext httpContext, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
         {
             ApiResponse response;
+
+            httpContext.Response.ContentType = "application/json"; // Set ContentType once
+
             switch (ex)
             {
                 case NotFoundException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                    httpContext.Response.ContentType = "application/json";
                     response = new ApiResponse((int)HttpStatusCode.NotFound, ex.Message);
-                    await httpContext.Response.WriteAsync(response.ToString());
-
                     break;
 
                 case BadRequestException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    httpContext.Response.ContentType = "application/json";
                     response = new ApiResponse((int)HttpStatusCode.BadRequest, ex.Message);
-                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 case UnAuthorizedException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    httpContext.Response.ContentType = "application/json";
                     response = new ApiResponse((int)HttpStatusCode.Unauthorized, ex.Message);
-                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
                 default:
-                    //Development Mode
-                    response = _env.IsDevelopment()
-                        ? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
-                        : new ApiExceptionResponse(((int)HttpStatusCode.InternalServerError), ex.Message, ex.StackTrace?.ToString());
-
+                    // Handle other exceptions
                     httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    httpContext.Response.ContentType = "application/json";
+                    response = _environment.IsDevelopment()
+                        ? new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace?.ToString())
+                        : new ApiExceptionResponse((int)HttpStatusCode.InternalServerError);
 
-                    await httpContext.Response.WriteAsync(response.ToString());
                     break;
             }
-            return response;
+
+            await httpContext.Response.WriteAsync(response.ToString()); // Send the response
         }
     }
+
 }

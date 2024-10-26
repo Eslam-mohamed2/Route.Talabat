@@ -1,0 +1,16 @@
+﻿@model RoleViewModel
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1 class="m-3">Edit Role</h1>
+<form method="post" asp-action="Edit" asp-route-Id="@Model.Id" class="mt-4">
+    <div class="form-group mt-2">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="input-group mt-2 justify-content-center">
+        <button type="submit" class="btn btn-success m-2">Save</button>
+        <button type="button" class="btn btn-secondary m-2" asp-action="Index">Back To Role List</button>
+    </div>
+</form>
+

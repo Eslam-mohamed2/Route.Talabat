@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Route.Talaat.Infrastructure.Persistence.UnitOfWork
 {
-    internal class UnitOFWork : IUnitOfWork
+    public class UnitOFWork : IUnitOfWork
     {
         private readonly StoreDbContext _dbContext;
         private readonly ConcurrentDictionary<string, object> _repositories;
